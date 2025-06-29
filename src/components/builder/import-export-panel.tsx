@@ -48,7 +48,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
         `Successfully exported ${state.sections.length} sections!`
       );
       setImportError(null);
-      setTimeout(() => setImportSuccess(null), 3000);
+      setImportSuccess(null);
     } catch (error) {
       console.error("Export error:", error);
       setImportError(error instanceof Error ? error.message : "Export failed");
@@ -85,10 +85,8 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
         `Successfully imported "${config.name}" with ${config.sections.length} sections!`
       );
 
-      setTimeout(() => {
-        setImportSuccess(null);
-        onClose();
-      }, 2000);
+      setImportSuccess(null);
+      onClose();
     } catch (error) {
       console.error("Import error:", error);
       setImportError(error instanceof Error ? error.message : "Import failed");
@@ -110,7 +108,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
     ) {
       clearAllSections();
       setImportSuccess("All sections cleared!");
-      setTimeout(() => setImportSuccess(null), 2000);
+      setImportSuccess(null);
     }
   };
 
@@ -218,7 +216,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                       Importing...
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center p-4">
                       <Icons.Upload size={24} className="text-gray-400 mb-2" />
                       <span className="text-sm font-medium">
                         Click to select JSON file

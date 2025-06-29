@@ -92,7 +92,7 @@ export const Canvas: React.FC = () => {
             <Button
               onClick={handleImportExportToggle}
               size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              variant="outline"
             >
               <Icons.Download size={16} className="mr-2" />
               Import/Export
