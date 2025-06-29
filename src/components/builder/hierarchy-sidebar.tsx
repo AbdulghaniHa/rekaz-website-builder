@@ -119,7 +119,7 @@ export const HierarchySidebar: React.FC = () => {
                   <Reorder.Item
                     key={section.id}
                     value={section}
-                    className="group relative list-none"
+                    className="group relative list-none rounded-xl"
                     style={{ position: "relative", listStyle: "none" }}
                     whileDrag={{
                       scale: 1.025,
