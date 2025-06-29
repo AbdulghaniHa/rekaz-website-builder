@@ -5,6 +5,7 @@ import { BuilderProvider } from "@/contexts/builder-context";
 import { BuilderSidebar } from "@/components/builder/builder-sidebar";
 import { Canvas } from "@/components/builder/canvas";
 import { HierarchySidebar } from "@/components/builder/hierarchy-sidebar";
+import { PropertiesPanel } from "@/components/builder/properties-panel";
 
 export default function Home() {
   console.log("Home page rendered with new three-column layout");
@@ -20,6 +21,9 @@ export default function Home() {
 
         {/* Right Sidebar - Page Hierarchy */}
         <HierarchySidebar />
+
+        {/* Properties Panel - Section Editor */}
+        <PropertiesPanel />
       </div>
     </BuilderProvider>
   );
