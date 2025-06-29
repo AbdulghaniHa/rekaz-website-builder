@@ -88,7 +88,7 @@ export const HierarchySidebar: React.FC = () => {
               axis="y"
               values={sortedSections}
               onReorder={handleReorder}
-              className="space-y-3"
+              className="space-y-3 list-none"
             >
               {sortedSections.map((section, index) => {
                 const template = getSectionTemplate(section.templateId);
@@ -103,11 +103,10 @@ export const HierarchySidebar: React.FC = () => {
                   <Reorder.Item
                     key={section.id}
                     value={section}
-                    className="group relative"
-                    style={{ position: "relative" }}
+                    className="group relative list-none"
+                    style={{ position: "relative", listStyle: "none" }}
                     whileDrag={{
-                      scale: 1.05,
-                      rotate: 2,
+                      scale: 1.025,
                       zIndex: 50,
                       boxShadow: "0 10px 30px rgba(0, 0, 0, 0.15)",
                     }}
