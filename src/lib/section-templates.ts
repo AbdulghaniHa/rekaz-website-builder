@@ -55,6 +55,7 @@ export const sectionTemplates: SectionTemplate[] = [
     defaultProps: {
       title: "About Our Service",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      image: "",
       layout: "left",
       showButton: true,
       buttonText: "Learn More",
