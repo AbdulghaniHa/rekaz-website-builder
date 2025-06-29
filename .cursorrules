@@ -1,0 +1,51 @@
+### 🎯 Objective
+
+Your task is to build a **Mini Website Builder** with the following key features:
+Use shadcn/ui for the components, tailwindcss for the styling, `motion` for the animations.
+motion is preinstalled with shadcn/ui, so you don't need to install it separately.
+motion is the same as framer-motion, framer motion is deprecated.
+
+- **Section Library (Click-to-Add)**: Provide a list of pre-made sections (e.g., header, hero, footer) that users can **click** to add to their page layout, the sections should be draggable and droppable, it will be in the left side of the screen, like a sidebar.
+
+- **Preview Area**: A live preview of the constructed page in real-time as users edit/add.
+- **Import/Export**: Enable users to export and import their design configurations as JSON files, allowing them to save, load, and continue editing their work after closing the app.
+- **Editable Sections**: Allow users to edit section properties (e.g., title, description, images urls), as well as delete and re-order by dragging and dropping.
+
+### 📝 Notes
+
+- The builder must be **fully responsive** and adapt well across different screen sizes.
+- The **performance** of the website and any unnecessary **re-renders** will be a critical focus.
+- The **pre-made sections ui** won't be evaluated, but the **builder ui** will be evaluated.
+- Subtle **animations** and **transitions** across the app will add **bonus** points.
+- The website should be **SSR** friendly, push client components down the tree.
+
+### 🛠️ Stack and Tools
+
+We require the use of **Next.js** and **TypeScript**. You're free to choose any additional libraries or tools for styling, drag-and-drop functionality, or state management.
+
+### File naming
+
+always use this format file-name.tsx
+
+### State management:
+
+for client side state use zustand
+
+### Tech-stack:
+React v19
+Next.js v15
+
+### 🏗️ Architecture
+
+- **Three-column layout**: Fixed left sidebar (components), middle canvas (live preview), fixed right sidebar (hierarchy)
+- **Drag & Drop**: From left sidebar to canvas, reorder in right sidebar
+- **Real-time updates**: All changes reflect immediately across all three areas
+- **Context-based state**: React Context with useReducer for global state management
+
+### 🎨 UI/UX Guidelines
+
+- **Consistent spacing**: Use Tailwind's spacing scale (4, 8, 12, 16, etc.)
+- **Color scheme**: Blue primary (#3B82F6), Gray neutral (#6B7280), Green success (#10B981)
+- **Typography**: Use font-medium for headings, text-sm for descriptions
+- **Animations**: Subtle motion effects with 200ms duration
+- **Responsive**: Mobile-first approach with proper breakpoints
