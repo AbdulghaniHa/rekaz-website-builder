@@ -6,6 +6,13 @@ import { useBuilder } from "@/contexts/builder-context";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import * as Icons from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export const HierarchySidebar: React.FC = () => {
   const { state, removeSection, selectSection, setSectionsOrder } =
@@ -188,44 +195,43 @@ export const HierarchySidebar: React.FC = () => {
                             </p>
                           </div>
 
-                          {/* Order badge */}
-                          <motion.div
-                            className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                              isSelected
-                                ? "bg-blue-200 text-blue-700"
-                                : "bg-gray-200 text-gray-600"
-                            }`}
-                            whileHover={{ scale: 1.1 }}
-                          >
-                            {index + 1}
-                          </motion.div>
-
-                          {/* Action buttons container */}
-                          <div className="flex items-center space-x-1">
-                            {/* Edit button */}
-                            <motion.button
-                              onClick={(e) => handleEditSection(section.id, e)}
-                              className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-all"
-                              title="Edit section properties"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <Icons.Edit size={16} />
-                            </motion.button>
-
-                            {/* Delete button */}
-                            <motion.button
-                              onClick={(e) =>
-                                handleDeleteSection(section.id, e)
-                              }
-                              className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
-                              title="Delete section"
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <Icons.Trash2 size={16} />
-                            </motion.button>
-                          </div>
+                          {/* Actions Menu */}
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <motion.button
+                                className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-all focus:outline-none"
+                                title="Section actions"
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Icons.MoreVertical size={16} />
+                              </motion.button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEditSection(section.id, e);
+                                }}
+                                className="cursor-pointer"
+                              >
+                                <Icons.Edit size={16} className="mr-2" />
+                                Edit Properties
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteSection(section.id, e);
+                                }}
+                                className="cursor-pointer text-red-600 focus:text-red-600"
+                              >
+                                <Icons.Trash2 size={16} className="mr-2" />
+                                Delete Section
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
                       </div>
 
