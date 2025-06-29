@@ -9,13 +9,21 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PropertyFieldProps {
   label: string;
   value: any;
-  type: "text" | "textarea" | "boolean" | "array" | "url" | "color";
+  type: "text" | "textarea" | "boolean" | "array" | "url" | "color" | "select";
   onChange: (value: any) => void;
   placeholder?: string;
+  options?: { value: string; label: string }[];
 }
 
 const PropertyField: React.FC<PropertyFieldProps> = ({
@@ -24,10 +32,31 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
   type,
   onChange,
   placeholder,
+  options,
 }) => {
   console.log(`PropertyField ${label} rendered with value:`, value);
 
   switch (type) {
+    case "select":
+      return (
+        <div className="space-y-2">
+          <Label className="text-sm font-medium text-gray-700">{label}</Label>
+          <Select value={value || ""} onValueChange={onChange}>
+            <SelectTrigger>
+              <SelectValue
+                placeholder={placeholder || `Select ${label.toLowerCase()}`}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {options?.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
     case "textarea":
       return (
         <div className="space-y-2">
@@ -221,6 +250,7 @@ export const PropertiesPanel: React.FC = () => {
   ): PropertyFieldProps["type"] => {
     if (typeof value === "boolean") return "boolean";
     if (Array.isArray(value)) return "array";
+    if (key.toLowerCase() === "layout") return "select";
     if (
       key.toLowerCase().includes("url") ||
       key.toLowerCase().includes("image")
@@ -235,11 +265,37 @@ export const PropertiesPanel: React.FC = () => {
     return "text";
   };
 
+  const getPropertyOptions = (
+    key: string
+  ): { value: string; label: string }[] | undefined => {
+    if (key.toLowerCase() === "layout") {
+      return [
+        { value: "left", label: "Left" },
+        { value: "right", label: "Right" },
+        { value: "center", label: "Centered" },
+      ];
+    }
+    return undefined;
+  };
+
   const getPropertyLabel = (key: string): string => {
-    return key
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase())
+    console.log("Getting label for key:", key);
+
+    // First check if template has custom property labels
+    if (template?.propertyLabels?.[key]) {
+      console.log("Using template label:", template.propertyLabels[key]);
+      return template.propertyLabels[key];
+    }
+
+    // Fallback to automatic generation with improved regex
+    const label = key
+      .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2") // Handle sequences like "CTA" -> "CTA "
+      .replace(/([a-z\d])([A-Z])/g, "$1 $2") // Handle camelCase like "showButton" -> "show Button"
+      .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
       .trim();
+
+    console.log("Generated label for", key, ":", label);
+    return label;
   };
 
   const getPropertyPlaceholder = (
@@ -323,6 +379,7 @@ export const PropertiesPanel: React.FC = () => {
                 const type = getPropertyType(key, value);
                 const label = getPropertyLabel(key);
                 const placeholder = getPropertyPlaceholder(key, type);
+                const options = getPropertyOptions(key);
 
                 return (
                   <PropertyField
@@ -332,6 +389,7 @@ export const PropertiesPanel: React.FC = () => {
                     type={type}
                     onChange={(newValue) => handlePropertyChange(key, newValue)}
                     placeholder={placeholder}
+                    options={options}
                   />
                 );
               })}

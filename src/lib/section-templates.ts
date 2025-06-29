@@ -17,6 +17,12 @@ export const sectionTemplates: SectionTemplate[] = [
       subtitle: "Discover the power of our innovative solutions",
       buttonText: "Get Started",
     },
+    propertyLabels: {
+      title: "Title",
+      subtitle: "Subtitle",
+      buttonText: "Button Text",
+      backgroundImage: "Background Image",
+    },
   },
   {
     id: "header",
@@ -30,6 +36,13 @@ export const sectionTemplates: SectionTemplate[] = [
       menuItems: ["Home", "About", "Services", "Contact"],
       showCTA: true,
       ctaText: "Get Started",
+    },
+    propertyLabels: {
+      logo: "Logo URL",
+      brandName: "Brand Name",
+      menuItems: "Menu Items",
+      showCTA: "Show CTA Button",
+      ctaText: "CTA Text",
     },
   },
   {
@@ -46,6 +59,14 @@ export const sectionTemplates: SectionTemplate[] = [
       showButton: true,
       buttonText: "Learn More",
     },
+    propertyLabels: {
+      title: "Title",
+      content: "Content",
+      image: "Image URL",
+      layout: "Layout",
+      showButton: "Show Button",
+      buttonText: "Button Text",
+    },
   },
   {
     id: "footer",
@@ -57,6 +78,12 @@ export const sectionTemplates: SectionTemplate[] = [
     defaultProps: {
       companyName: "Your Company",
       copyright: "2024",
+    },
+    propertyLabels: {
+      companyName: "Company Name",
+      copyright: "Copyright Year",
+      links: "Quick Links",
+      socialLinks: "Social Links",
     },
   },
 ];

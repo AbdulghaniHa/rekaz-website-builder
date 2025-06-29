@@ -6,6 +6,7 @@ export interface SectionTemplate {
   category: "layout" | "content" | "media" | "navigation";
   component: React.ComponentType<any>;
   defaultProps?: Record<string, any>;
+  propertyLabels?: Record<string, string>;
 }
 
 export interface BuilderSection {
