@@ -151,7 +151,7 @@ export const HierarchySidebar: React.FC = () => {
                         />
                       )}
 
-                      <div className="p-4">
+                      <div className="p-4 rounded-xl">
                         <div className="flex items-center space-x-4">
                           {/* Drag Handle */}
                           <motion.div
