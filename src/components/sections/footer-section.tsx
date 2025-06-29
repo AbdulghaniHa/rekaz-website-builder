@@ -24,18 +24,20 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
   console.log("FooterSection rendered with props:", { companyName, copyright });
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-50 text-gray-900 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-lg font-semibold mb-4">{companyName}</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900">
+              {companyName}
+            </h3>
+            <p className="text-gray-600 mb-4">
               Building amazing websites with our innovative website builder.
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-4 uppercase tracking-wide">
+            <h4 className="text-sm font-semibold mb-4 uppercase tracking-wide text-gray-900">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -43,7 +45,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
                   >
                     {link.label}
                   </a>
@@ -53,7 +55,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-4 uppercase tracking-wide">
+            <h4 className="text-sm font-semibold mb-4 uppercase tracking-wide text-gray-900">
               Follow Us
             </h4>
             <ul className="space-y-2">
@@ -61,7 +63,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                 <li key={index}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
                   >
                     {link.platform}
                   </a>
@@ -71,8 +73,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8">
-          <p className="text-center text-gray-400">
+        <div className="border-t border-gray-300 mt-8 pt-8">
+          <p className="text-center text-gray-500">
             © {copyright} {companyName}. All rights reserved.
           </p>
         </div>
