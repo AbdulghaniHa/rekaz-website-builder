@@ -55,9 +55,9 @@ export const Canvas: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 h-full bg-white border-l border-r border-gray-200 relative">
+    <div className="flex-1 h-screen bg-white border-l border-r border-gray-200 relative flex flex-col">
       {/* Canvas Header */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50">
+      <div className="p-4 border-b border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
@@ -83,10 +83,8 @@ export const Canvas: React.FC = () => {
 
       {/* Canvas Area */}
       <div
-        className={`h-[calc(100%-80px)] overflow-y-auto transition-all duration-200 ${
-          state.isDragging
-            ? "bg-blue-50 border-2 border-dashed border-blue-300"
-            : ""
+        className={`flex-1 overflow-y-auto transition-all duration-200 ${
+          state.isDragging ? "bg-blue-50 border-2 border-dashed border-blue-300" : "bg-gray-50"
         }`}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
@@ -121,7 +119,7 @@ export const Canvas: React.FC = () => {
             </motion.div>
           </div>
         ) : (
-          // Sections Preview
+          // Sections Preview - Full Width Layout
           <div className="min-h-full">
             <AnimatePresence>
               {state.sections
@@ -139,11 +137,11 @@ export const Canvas: React.FC = () => {
                   return (
                     <motion.div
                       key={section.id}
-                      initial={{ opacity: 0, y: 50 }}
+                      initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -50 }}
-                      transition={{ delay: index * 0.1 }}
-                      className={`relative group cursor-pointer transition-all duration-200 ${
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.2 }}
+                      className={`relative group cursor-pointer transition-all duration-200 w-full ${
                         isSelected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
                       }`}
                       onClick={() => handleSectionClick(section.id)}
@@ -152,14 +150,16 @@ export const Canvas: React.FC = () => {
                       <div className="absolute inset-0 bg-blue-500 bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-200 z-10" />
 
                       {/* Section Label */}
-                      <div className="absolute top-2 left-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <div className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+                      <div className="absolute top-4 left-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg">
                           {template.name}
                         </div>
                       </div>
 
-                      {/* Section Content */}
-                      <SectionComponent {...section.props} />
+                      {/* Section Content - Full Width */}
+                      <div className="w-full">
+                        <SectionComponent {...section.props} />
+                      </div>
                     </motion.div>
                   );
                 })}

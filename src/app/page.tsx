@@ -11,11 +11,11 @@ export default function Home() {
 
   return (
     <BuilderProvider>
-      <div className="min-h-screen bg-gray-100 flex">
+      <div className="h-screen bg-gray-100 flex overflow-hidden">
         {/* Left Sidebar - Section Library */}
         <BuilderSidebar />
 
-        {/* Middle - Canvas Area */}
+        {/* Middle - Canvas Area (takes remaining space) */}
         <Canvas />
 
         {/* Right Sidebar - Page Hierarchy */}
