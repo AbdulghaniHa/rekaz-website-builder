@@ -1,16 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Button } from "@/components/ui/button";
 import { useBuilder } from "@/contexts/builder-context";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { DragData } from "@/types/builder";
+import { ImportExportPanel } from "./import-export-panel";
 import * as Icons from "lucide-react";
 
 export const Canvas: React.FC = () => {
   const { state, addSection, selectSection, setDragging } = useBuilder();
+  const [isImportExportOpen, setIsImportExportOpen] = useState(false);
 
   console.log("Canvas rendered with sections:", state.sections.length);
+
+  const handleImportExportToggle = () => {
+    console.log("Toggling import/export panel from canvas");
+    setIsImportExportOpen(!isImportExportOpen);
+  };
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
@@ -72,19 +80,33 @@ export const Canvas: React.FC = () => {
             </p>
           </div>
 
-          {state.sections.length > 0 && (
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-500">Live preview</span>
-            </div>
-          )}
+          <div className="flex items-center space-x-3">
+            {state.sections.length > 0 && (
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-gray-500">Live preview</span>
+              </div>
+            )}
+
+            {/* Import/Export Button */}
+            <Button
+              onClick={handleImportExportToggle}
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Icons.Download size={16} className="mr-2" />
+              Import/Export
+            </Button>
+          </div>
         </div>
       </div>
 
       {/* Canvas Area */}
       <div
         className={`flex-1 overflow-y-auto transition-all duration-200 ${
-          state.isDragging ? "bg-blue-50 border-2 border-dashed border-blue-300" : "bg-gray-50"
+          state.isDragging
+            ? "bg-blue-50 border-2 border-dashed border-blue-300"
+            : "bg-gray-50"
         }`}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
@@ -182,6 +204,12 @@ export const Canvas: React.FC = () => {
           </motion.div>
         )}
       </div>
+
+      {/* Import/Export Panel */}
+      <ImportExportPanel
+        isOpen={isImportExportOpen}
+        onClose={() => setIsImportExportOpen(false)}
+      />
     </div>
   );
 };

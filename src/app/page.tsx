@@ -8,7 +8,7 @@ import { HierarchySidebar } from "@/components/builder/hierarchy-sidebar";
 import { PropertiesPanel } from "@/components/builder/properties-panel";
 
 export default function Home() {
-  console.log("Home page rendered with new three-column layout");
+  console.log("Home page rendered with three-column layout");
 
   return (
     <BuilderProvider>

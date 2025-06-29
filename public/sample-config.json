@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "name": "Sample Website",
+  "sections": [
+    {
+      "id": "section_1704067200000_abc123def",
+      "templateId": "header",
+      "props": {
+        "title": "Welcome to My Website",
+        "subtitle": "This is a sample header section",
+        "showLogo": true,
+        "backgroundColor": "#ffffff"
+      },
+      "order": 0
+    },
+    {
+      "id": "section_1704067260000_def456ghi",
+      "templateId": "hero",
+      "props": {
+        "title": "Build Amazing Websites",
+        "subtitle": "Create stunning websites with our drag-and-drop builder",
+        "buttonText": "Get Started",
+        "buttonLink": "#",
+        "backgroundImage": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=1200&h=600&fit=crop",
+        "alignment": "center"
+      },
+      "order": 1
+    },
+    {
+      "id": "section_1704067320000_ghi789jkl",
+      "templateId": "content",
+      "props": {
+        "title": "About Our Services",
+        "content": "We provide comprehensive website building solutions that help businesses create professional online presence. Our tools are designed to be user-friendly while maintaining powerful customization options.",
+        "layout": "two-column",
+        "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop"
+      },
+      "order": 2
+    },
+    {
+      "id": "section_1704067380000_jkl012mno",
+      "templateId": "footer",
+      "props": {
+        "companyName": "Sample Company",
+        "copyright": "© 2024 Sample Company. All rights reserved.",
+        "links": [
+          { "label": "Home", "url": "#" },
+          { "label": "About", "url": "#about" },
+          { "label": "Services", "url": "#services" },
+          { "label": "Contact", "url": "#contact" }
+        ],
+        "socialLinks": {
+          "facebook": "https://facebook.com",
+          "twitter": "https://twitter.com",
+          "linkedin": "https://linkedin.com"
+        },
+        "backgroundColor": "#1f2937"
+      },
+      "order": 3
+    }
+  ],
+  "exportedAt": "2024-01-01T12:00:00.000Z",
+  "metadata": {
+    "totalSections": 4,
+    "templateIds": ["header", "hero", "content", "footer"]
+  }
+}

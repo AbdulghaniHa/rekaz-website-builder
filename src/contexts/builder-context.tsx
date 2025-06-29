@@ -13,6 +13,8 @@ interface BuilderContextType {
   setSectionsOrder: (sections: BuilderSection[]) => void;
   selectSection: (sectionId: string | null) => void;
   setDragging: (isDragging: boolean) => void;
+  importSections: (sections: BuilderSection[]) => void;
+  clearAllSections: () => void;
 }
 
 type BuilderAction =
@@ -28,7 +30,9 @@ type BuilderAction =
     }
   | { type: "SET_SECTIONS_ORDER"; payload: { sections: BuilderSection[] } }
   | { type: "SELECT_SECTION"; payload: { sectionId: string | null } }
-  | { type: "SET_DRAGGING"; payload: { isDragging: boolean } };
+  | { type: "SET_DRAGGING"; payload: { isDragging: boolean } }
+  | { type: "IMPORT_SECTIONS"; payload: { sections: BuilderSection[] } }
+  | { type: "CLEAR_ALL_SECTIONS" };
 
 const generateId = () =>
   `section_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -37,7 +41,11 @@ const builderReducer = (
   state: BuilderState,
   action: BuilderAction
 ): BuilderState => {
-  console.log("Builder reducer action:", action.type, action.payload);
+  console.log(
+    "Builder reducer action:",
+    action.type,
+    "payload" in action ? action.payload : "no payload"
+  );
 
   switch (action.type) {
     case "ADD_SECTION": {
@@ -146,6 +154,33 @@ const builderReducer = (
         isDragging: action.payload.isDragging,
       };
 
+    case "IMPORT_SECTIONS": {
+      console.log("Importing sections:", action.payload.sections.length);
+      // Clear selection and reset dragging state when importing
+      const sectionsWithOrder = action.payload.sections.map(
+        (section, index) => ({
+          ...section,
+          order: index,
+        })
+      );
+
+      return {
+        ...state,
+        sections: sectionsWithOrder,
+        selectedSectionId: null,
+        isDragging: false,
+      };
+    }
+
+    case "CLEAR_ALL_SECTIONS":
+      console.log("Clearing all sections");
+      return {
+        ...state,
+        sections: [],
+        selectedSectionId: null,
+        isDragging: false,
+      };
+
     default:
       return state;
   }
@@ -194,6 +229,14 @@ export const BuilderProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "SET_DRAGGING", payload: { isDragging } });
   };
 
+  const importSections = (sections: BuilderSection[]) => {
+    dispatch({ type: "IMPORT_SECTIONS", payload: { sections } });
+  };
+
+  const clearAllSections = () => {
+    dispatch({ type: "CLEAR_ALL_SECTIONS" });
+  };
+
   return (
     <BuilderContext.Provider
       value={{
@@ -205,6 +248,8 @@ export const BuilderProvider: React.FC<{ children: ReactNode }> = ({
         setSectionsOrder,
         selectSection,
         setDragging,
+        importSections,
+        clearAllSections,
       }}
     >
       {children}
