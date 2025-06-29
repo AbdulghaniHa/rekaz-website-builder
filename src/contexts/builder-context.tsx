@@ -10,6 +10,7 @@ interface BuilderContextType {
   removeSection: (sectionId: string) => void;
   updateSection: (sectionId: string, props: Record<string, any>) => void;
   reorderSections: (dragIndex: number, dropIndex: number) => void;
+  setSectionsOrder: (sections: BuilderSection[]) => void;
   selectSection: (sectionId: string | null) => void;
   setDragging: (isDragging: boolean) => void;
 }
@@ -25,6 +26,7 @@ type BuilderAction =
       type: "REORDER_SECTIONS";
       payload: { dragIndex: number; dropIndex: number };
     }
+  | { type: "SET_SECTIONS_ORDER"; payload: { sections: BuilderSection[] } }
   | { type: "SELECT_SECTION"; payload: { sectionId: string | null } }
   | { type: "SET_DRAGGING"; payload: { isDragging: boolean } };
 
@@ -111,6 +113,26 @@ const builderReducer = (
       };
     }
 
+    case "SET_SECTIONS_ORDER": {
+      console.log(
+        "Setting sections order with",
+        action.payload.sections.length,
+        "sections"
+      );
+      // Update order property based on array position
+      const sectionsWithOrder = action.payload.sections.map(
+        (section, index) => ({
+          ...section,
+          order: index,
+        })
+      );
+
+      return {
+        ...state,
+        sections: sectionsWithOrder,
+      };
+    }
+
     case "SELECT_SECTION":
       console.log("Selecting section:", action.payload.sectionId);
       return {
@@ -160,6 +182,10 @@ export const BuilderProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "REORDER_SECTIONS", payload: { dragIndex, dropIndex } });
   };
 
+  const setSectionsOrder = (sections: BuilderSection[]) => {
+    dispatch({ type: "SET_SECTIONS_ORDER", payload: { sections } });
+  };
+
   const selectSection = (sectionId: string | null) => {
     dispatch({ type: "SELECT_SECTION", payload: { sectionId } });
   };
@@ -176,6 +202,7 @@ export const BuilderProvider: React.FC<{ children: ReactNode }> = ({
         removeSection,
         updateSection,
         reorderSections,
+        setSectionsOrder,
         selectSection,
         setDragging,
       }}
