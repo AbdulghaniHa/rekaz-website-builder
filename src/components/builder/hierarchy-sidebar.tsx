@@ -3,12 +3,14 @@
 import React from "react";
 import { motion, Reorder } from "motion/react";
 import { useBuilder } from "@/contexts/builder-context";
+import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import * as Icons from "lucide-react";
 
 export const HierarchySidebar: React.FC = () => {
   const { state, removeSection, selectSection, setSectionsOrder } =
     useBuilder();
+  const { setCollapsed } = usePropertiesPanelStore();
 
   console.log(
     "HierarchySidebar rendered with sections:",
@@ -18,6 +20,13 @@ export const HierarchySidebar: React.FC = () => {
   const handleSectionClick = (sectionId: string) => {
     console.log("Hierarchy section clicked:", sectionId);
     selectSection(sectionId);
+  };
+
+  const handleEditSection = (sectionId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    console.log("Editing section:", sectionId);
+    selectSection(sectionId);
+    setCollapsed(false); // Expand the Properties Panel when edit is clicked
   };
 
   const handleDeleteSection = (sectionId: string, event: React.MouseEvent) => {
@@ -57,7 +66,7 @@ export const HierarchySidebar: React.FC = () => {
         <p className="text-sm text-gray-600">
           {state.sections.length === 0
             ? "No sections added yet"
-            : "Click to select • Drag to reorder"}
+            : "Click to select • Drag to reorder • Hover for actions"}
         </p>
       </div>
 
@@ -191,16 +200,32 @@ export const HierarchySidebar: React.FC = () => {
                             {index + 1}
                           </motion.div>
 
-                          {/* Delete button */}
-                          <motion.button
-                            onClick={(e) => handleDeleteSection(section.id, e)}
-                            className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
-                            title="Delete section"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Icons.Trash2 size={16} />
-                          </motion.button>
+                          {/* Action buttons container */}
+                          <div className="flex items-center space-x-1">
+                            {/* Edit button */}
+                            <motion.button
+                              onClick={(e) => handleEditSection(section.id, e)}
+                              className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-all"
+                              title="Edit section properties"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <Icons.Edit size={16} />
+                            </motion.button>
+
+                            {/* Delete button */}
+                            <motion.button
+                              onClick={(e) =>
+                                handleDeleteSection(section.id, e)
+                              }
+                              className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
+                              title="Delete section"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <Icons.Trash2 size={16} />
+                            </motion.button>
+                          </div>
                         </div>
                       </div>
 

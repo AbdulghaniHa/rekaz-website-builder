@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useBuilder } from "@/contexts/builder-context";
 import { getSectionTemplate } from "@/lib/section-templates";
+import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import * as Icons from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -177,7 +178,7 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
 
 export const PropertiesPanel: React.FC = () => {
   const { state, updateSection, selectSection } = useBuilder();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { isCollapsed, toggleCollapsed } = usePropertiesPanelStore();
 
   console.log(
     "PropertiesPanel rendered. Selected section:",
@@ -210,11 +211,7 @@ export const PropertiesPanel: React.FC = () => {
             >
               Properties
             </h3>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-            >
+            <Button variant="ghost" size="sm" onClick={toggleCollapsed}>
               <Icons.Settings size={16} />
             </Button>
           </div>
@@ -342,11 +339,7 @@ export const PropertiesPanel: React.FC = () => {
               <p className="text-xs text-gray-500">{template.name}</p>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-          >
+          <Button variant="ghost" size="sm" onClick={toggleCollapsed}>
             <Icons.Settings size={16} />
           </Button>
         </div>
