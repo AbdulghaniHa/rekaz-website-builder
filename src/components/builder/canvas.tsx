@@ -141,13 +141,13 @@ export const Canvas: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.2 }}
-                      className={`relative group cursor-pointer transition-all duration-200 w-full ${
-                        isSelected ? "ring-2 ring-blue-500 ring-opacity-50" : ""
+                      className={`relative group cursor-pointer transition-all duration-200 w-full z-0 ${
+                        isSelected ? "ring-2 ring-gray-300 ring-opacity-50" : ""
                       }`}
                       onClick={() => handleSectionClick(section.id)}
                     >
                       {/* Section Overlay */}
-                      <div className="absolute inset-0 bg-blue-500 bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-200 z-10" />
+                      <div className="absolute inset-0 transition-all duration-200 z-0" />
 
                       {/* Section Label */}
                       <div className="absolute top-4 left-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -157,7 +157,7 @@ export const Canvas: React.FC = () => {
                       </div>
 
                       {/* Section Content - Full Width */}
-                      <div className="w-full">
+                      <div className="w-full z-10 relative">
                         <SectionComponent {...section.props} />
                       </div>
                     </motion.div>

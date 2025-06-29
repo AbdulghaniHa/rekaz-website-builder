@@ -20,7 +20,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   });
 
   return (
-    <section className="relative min-h-[500px] flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+    <section className="relative min-h-[500px] flex items-center justify-center bg-gradient-to-r from-yellow-600 to-red-600 text-white">
       {backgroundImage && (
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30"
