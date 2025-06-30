@@ -207,9 +207,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                       <span className="text-sm font-medium">
                         Click to select JSON file
                       </span>
-                      <span className="text-xs text-gray-500">
-                        or drag and drop here
-                      </span>
                     </div>
                   )}
                 </Button>
