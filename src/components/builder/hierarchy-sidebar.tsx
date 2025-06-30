@@ -168,7 +168,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                         <div className="flex items-center space-x-4">
                           {/* Drag Handle */}
                           <motion.div
-                            className="opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+                            className="cursor-grab active:cursor-grabbing"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                           >
@@ -212,7 +212,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <motion.button
-                                className="opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-all focus:outline-none"
+                                className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-all focus:outline-none"
                                 title="Section actions"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
