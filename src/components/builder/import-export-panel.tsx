@@ -113,7 +113,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogPortal>
-        <BlurOverlay />
         <DialogContent className="max-w-md w-full" showCloseButton={false}>
           <DialogHeader>
             <div className="flex items-center space-x-3 mb-2">
