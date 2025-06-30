@@ -35,8 +35,6 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
   placeholder,
   options,
 }) => {
-  console.log(`PropertyField ${label} rendered with value:`, value);
-
   switch (type) {
     case "select":
       return (
@@ -180,13 +178,6 @@ export const PropertiesPanel: React.FC = () => {
   const { state, updateSection, selectSection } = useBuilder();
   const { isCollapsed, toggleCollapsed } = usePropertiesPanelStore();
 
-  console.log(
-    "PropertiesPanel rendered. Selected section:",
-    state.selectedSectionId,
-    "isCollapsed:",
-    isCollapsed
-  );
-
   const selectedSection = state.sections.find(
     (section) => section.id === state.selectedSectionId
   );
@@ -198,30 +189,30 @@ export const PropertiesPanel: React.FC = () => {
   if (!selectedSection || !template) {
     return (
       <motion.div
-        className={`bg-white lg:border-l border-gray-200 flex flex-col ${
-          isCollapsed ? "lg:w-16" : "lg:w-80"
-        } w-full h-full`}
-        initial={false}
-        animate={{
-          width: isCollapsed ? "auto" : "auto",
-        }}
+        initial={{ width: 60, opacity: 1 }}
+        animate={{ width: isCollapsed ? 60 : 320, opacity: 1 }}
+        exit={{ width: 60, opacity: 1 }}
+        className="bg-white border-l border-gray-200 flex flex-col"
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="p-4 border-b border-gray-100">
           <div className="flex items-center justify-between">
-            <h3
-              className={`font-semibold text-gray-900 transition-opacity duration-200 ${
-                isCollapsed
-                  ? "lg:opacity-0 lg:w-0 lg:overflow-hidden"
-                  : "opacity-100"
-              }`}
-            >
-              Properties
-            </h3>
+            <AnimatePresence mode="wait">
+              {!isCollapsed && (
+                <motion.h3
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="font-semibold text-gray-900"
+                >
+                  Properties
+                </motion.h3>
+              )}
+            </AnimatePresence>
             <Button
               variant="ghost"
               size="sm"
-              className="hidden lg:flex"
               onClick={toggleCollapsed}
               title={
                 isCollapsed
@@ -234,13 +225,13 @@ export const PropertiesPanel: React.FC = () => {
           </div>
         </div>
 
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!isCollapsed && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2, delay: 0.1 }}
               className="flex-1 flex items-center justify-center p-8"
             >
               <div className="text-center">
@@ -263,7 +254,6 @@ export const PropertiesPanel: React.FC = () => {
   }
 
   const handlePropertyChange = (key: string, value: any) => {
-    console.log(`Updating property ${key} with value:`, value);
     updateSection(selectedSection.id, { [key]: value });
   };
 
@@ -302,11 +292,8 @@ export const PropertiesPanel: React.FC = () => {
   };
 
   const getPropertyLabel = (key: string): string => {
-    console.log("Getting label for key:", key);
-
     // First check if template has custom property labels
     if (template?.propertyLabels?.[key]) {
-      console.log("Using template label:", template.propertyLabels[key]);
       return template.propertyLabels[key];
     }
 
@@ -317,7 +304,6 @@ export const PropertiesPanel: React.FC = () => {
       .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
       .trim();
 
-    console.log("Generated label for", key, ":", label);
     return label;
   };
 
@@ -341,39 +327,39 @@ export const PropertiesPanel: React.FC = () => {
 
   return (
     <motion.div
-      className={`bg-white lg:border-l border-gray-200 flex flex-col ${
-        isCollapsed ? "lg:w-16" : "lg:w-80"
-      } w-full h-full`}
-      initial={false}
-      animate={{
-        width: isCollapsed ? "auto" : "auto",
-      }}
+      initial={{ width: 60, opacity: 1 }}
+      animate={{ width: isCollapsed ? 60 : 320, opacity: 1 }}
+      exit={{ width: 60, opacity: 1 }}
+      className="bg-white border-l border-gray-200 flex flex-col"
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       {/* Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <div
-            className={`flex items-center space-x-3 transition-all duration-200 ${
-              isCollapsed
-                ? "lg:opacity-0 lg:w-0 lg:overflow-hidden"
-                : "opacity-100"
-            }`}
-          >
-            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-              {IconComponent && (
-                <IconComponent size={16} className="text-blue-600" />
-              )}
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Properties</h3>
-              <p className="text-xs text-gray-500">{template.name}</p>
-            </div>
-          </div>
+          <AnimatePresence mode="wait">
+            {!isCollapsed && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                  {IconComponent && (
+                    <IconComponent size={16} className="text-blue-600" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Properties</h3>
+                  <p className="text-xs text-gray-500">{template.name}</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <Button
             variant="ghost"
             size="sm"
-            className="hidden lg:flex"
             onClick={toggleCollapsed}
             title={
               isCollapsed
@@ -387,13 +373,13 @@ export const PropertiesPanel: React.FC = () => {
       </div>
 
       {/* Properties Form */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {!isCollapsed && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
             className="flex-1 overflow-y-auto"
           >
             <div className="p-4 space-y-6">
