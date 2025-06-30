@@ -369,6 +369,13 @@ const MobileLayout: React.FC = () => {
     setActiveTab("canvas");
   };
 
+  // Mobile callback for switching from hierarchy to properties
+  const handleEditPropertiesMobile = (sectionId: string) => {
+    console.log("Switching to properties tab for section:", sectionId);
+    setActiveTab("properties");
+    // Panel should stay open since we're switching tabs
+  };
+
   const getDrawerTitle = () => {
     switch (activeTab) {
       case "components":
@@ -439,7 +446,9 @@ const MobileLayout: React.FC = () => {
             )}
             {activeTab === "hierarchy" && (
               <div className="h-full">
-                <HierarchySidebar />
+                <HierarchySidebar
+                  onEditPropertiesMobile={handleEditPropertiesMobile}
+                />
               </div>
             )}
             {activeTab === "properties" && (

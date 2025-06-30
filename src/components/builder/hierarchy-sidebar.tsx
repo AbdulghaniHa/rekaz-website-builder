@@ -14,7 +14,13 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
-export const HierarchySidebar: React.FC = () => {
+interface HierarchySidebarProps {
+  onEditPropertiesMobile?: (sectionId: string) => void;
+}
+
+export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
+  onEditPropertiesMobile,
+}) => {
   const { state, removeSection, selectSection, setSectionsOrder } =
     useBuilder();
   const { setCollapsed } = usePropertiesPanelStore();
@@ -33,7 +39,14 @@ export const HierarchySidebar: React.FC = () => {
     event.stopPropagation();
     console.log("Editing section:", sectionId);
     selectSection(sectionId);
-    setCollapsed(false); // Expand the Properties Panel when edit is clicked
+
+    // If we have a mobile callback, use it (for mobile drawer behavior)
+    if (onEditPropertiesMobile) {
+      onEditPropertiesMobile(sectionId);
+    } else {
+      // Desktop behavior - expand the Properties Panel
+      setCollapsed(false);
+    }
   };
 
   const handleDeleteSection = (sectionId: string, event: React.MouseEvent) => {
@@ -205,7 +218,7 @@ export const HierarchySidebar: React.FC = () => {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <Icons.MoreVertical size={16} />
+                                <Icons.MoreVertical size={16} className="text-gray-400 hover:text-gray-600" />
                               </motion.button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-48">
