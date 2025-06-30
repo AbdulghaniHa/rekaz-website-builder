@@ -9,11 +9,13 @@ import * as Icons from "lucide-react";
 interface SectionTemplateCardProps {
   template: SectionTemplate;
   onDragStart: (template: SectionTemplate) => void;
+  onSectionAdded?: () => void;
 }
 
 export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
   template,
   onDragStart,
+  onSectionAdded,
 }) => {
   const { addSection } = useBuilder();
   const IconComponent = Icons[
@@ -39,6 +41,11 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
     event.stopPropagation();
     console.log("Quick add clicked for template:", template.name);
     addSection(template.id);
+
+    // Call the callback if provided (for mobile auto-minimize)
+    if (onSectionAdded) {
+      onSectionAdded();
+    }
   };
 
   return (

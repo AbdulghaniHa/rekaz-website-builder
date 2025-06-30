@@ -9,7 +9,11 @@ import { DragData } from "@/types/builder";
 import { ImportExportPanel } from "./import-export-panel";
 import * as Icons from "lucide-react";
 
-export const Canvas: React.FC = () => {
+interface CanvasProps {
+  onSectionAdded?: () => void;
+}
+
+export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
   const { state, addSection, selectSection, setDragging } = useBuilder();
   const [isImportExportOpen, setIsImportExportOpen] = useState(false);
 
@@ -51,6 +55,11 @@ export const Canvas: React.FC = () => {
       if (data.type === "template" && data.templateId) {
         console.log("Adding section from template:", data.templateId);
         addSection(data.templateId);
+
+        // Call the callback if provided (for mobile auto-minimize)
+        if (onSectionAdded) {
+          onSectionAdded();
+        }
       }
     } catch (error) {
       console.error("Error parsing drop data:", error);

@@ -17,7 +17,13 @@ const categories = [
   { id: "media", name: "Media", icon: "Image" },
 ] as const;
 
-export const BuilderSidebar: React.FC = () => {
+interface BuilderSidebarProps {
+  onSectionAdded?: () => void;
+}
+
+export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
+  onSectionAdded,
+}) => {
   const [activeCategory, setActiveCategory] =
     useState<SectionTemplate["category"]>("layout");
   const [searchQuery, setSearchQuery] = useState("");
@@ -110,6 +116,7 @@ export const BuilderSidebar: React.FC = () => {
                 <SectionTemplateCard
                   template={template}
                   onDragStart={handleDragStart}
+                  onSectionAdded={onSectionAdded}
                 />
               </motion.div>
             ))}

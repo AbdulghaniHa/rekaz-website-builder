@@ -376,6 +376,13 @@ const MobileLayout: React.FC = () => {
     // Panel should stay open since we're switching tabs
   };
 
+  // Mobile callback for auto-minimizing when section is added
+  const handleSectionAddedMobile = () => {
+    console.log("Section added in mobile, minimizing panel for better UX");
+    setIsPanelOpen(false);
+    setActiveTab("canvas");
+  };
+
   const getDrawerTitle = () => {
     switch (activeTab) {
       case "components":
@@ -406,7 +413,7 @@ const MobileLayout: React.FC = () => {
     <div className="h-screen bg-gray-100 flex flex-col overflow-hidden">
       {/* Main Canvas Area */}
       <div className="flex-1 relative pb-20">
-        <Canvas />
+        <Canvas onSectionAdded={handleSectionAddedMobile} />
       </div>
 
       {/* Fixed Mobile Navigation - Always visible */}
@@ -441,7 +448,7 @@ const MobileLayout: React.FC = () => {
           <div className="flex-1 overflow-y-auto px-4 pb-4">
             {activeTab === "components" && (
               <div className="h-full">
-                <BuilderSidebar />
+                <BuilderSidebar onSectionAdded={handleSectionAddedMobile} />
               </div>
             )}
             {activeTab === "hierarchy" && (
