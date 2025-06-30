@@ -43,7 +43,7 @@ export const BuilderSidebar: React.FC = () => {
             Section Library
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Drag sections to the canvas
+            Drag sections to the canvas or click the + icon
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export const BuilderSidebar: React.FC = () => {
       <div className="hidden lg:block p-4 border-t border-gray-200 bg-white">
         <div className="text-center">
           <p className="text-xs text-gray-500">
-            Drag and drop sections to build your page
+            Drag and drop sections or click + to add to your page
           </p>
           <div className="flex items-center justify-center mt-2 space-x-2">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>

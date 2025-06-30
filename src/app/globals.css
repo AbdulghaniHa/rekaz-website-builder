@@ -170,4 +170,9 @@
   .mobile-drawer-content {
     box-shadow: 0 -8px 25px -5px rgba(0, 0, 0, 0.1), 0 -4px 10px -6px rgba(0, 0, 0, 0.1);
   }
+
+  /* Section template card enhancements */
+  .section-template-card {
+    -webkit-tap-highlight-color: transparent;
+  }
 }

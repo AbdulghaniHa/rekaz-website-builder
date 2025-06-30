@@ -385,7 +385,7 @@ const MobileLayout: React.FC = () => {
   const getDrawerDescription = () => {
     switch (activeTab) {
       case "components":
-        return "Drag sections to the canvas";
+        return "Drag sections to the canvas or click + to add";
       case "hierarchy":
         return "View and organize your page structure";
       case "properties":

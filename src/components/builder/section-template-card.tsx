@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { SectionTemplate } from "@/types/builder";
+import { useBuilder } from "@/contexts/builder-context";
 import * as Icons from "lucide-react";
 
 interface SectionTemplateCardProps {
@@ -14,6 +15,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
   template,
   onDragStart,
 }) => {
+  const { addSection } = useBuilder();
   const IconComponent = Icons[
     template.icon as keyof typeof Icons
   ] as React.ComponentType<{ size?: number; className?: string }>;
@@ -32,11 +34,18 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
     onDragStart(template);
   };
 
+  const handleQuickAdd = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("Quick add clicked for template:", template.name);
+    addSection(template.id);
+  };
+
   return (
     <motion.div
       draggable
       onDragStart={handleDragStart}
-      className="group relative bg-white rounded-lg border border-gray-200 p-4 cursor-grab active:cursor-grabbing hover:border-blue-300 hover:shadow-md transition-all duration-200"
+      className="group relative bg-white rounded-lg border border-gray-200 p-4 cursor-grab active:cursor-grabbing hover:border-blue-300 hover:shadow-md transition-all duration-200 section-template-card"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, y: 20 }}
@@ -60,7 +69,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
             {template.description}
           </p>
 
-          <div className="mt-2">
+          <div className="mt-2 flex items-center justify-between">
             <span
               className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                 template.category === "layout"
@@ -74,13 +83,40 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
             >
               {template.category}
             </span>
+
+            {/* Mobile Plus Button - Integrated */}
+            <motion.button
+              onClick={handleQuickAdd}
+              className="lg:hidden bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Add to canvas"
+            >
+              <Icons.Plus size={16} />
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* Drag indicator */}
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Icons.GripVertical size={12} className="text-gray-400" />
+      {/* Desktop Action Buttons - Only visible on large screens */}
+      <div className="hidden lg:block absolute top-2 right-2">
+        <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          {/* Desktop Quick Add Button */}
+          <motion.button
+            onClick={handleQuickAdd}
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-1.5 transition-all duration-200 shadow-sm hover:shadow-md"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="Add to canvas"
+          >
+            <Icons.Plus size={14} />
+          </motion.button>
+
+          {/* Drag indicator */}
+          <div className="bg-gray-100 rounded p-1">
+            <Icons.GripVertical size={12} className="text-gray-400" />
+          </div>
+        </div>
       </div>
     </motion.div>
   );
