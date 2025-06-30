@@ -363,14 +363,14 @@ const MobileLayout: React.FC = () => {
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col overflow-hidden">
-      {/* Main Canvas Area */}
-      <div className="flex-1 relative">
+      {/* Main Canvas Area with bottom padding for navigation */}
+      <div className="flex-1 relative pb-20">
         <Canvas />
 
         {/* Mobile Panel Overlay */}
         {isPanelOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-50 z-40"
+            className="absolute inset-0 bg-black bg-opacity-10 z-40"
             onClick={handlePanelClose}
           >
             <div
@@ -425,7 +425,7 @@ const MobileLayout: React.FC = () => {
         )}
       </div>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Fixed Mobile Navigation - Always visible */}
       <MobileNavigation
         activeTab={activeTab}
         onTabChange={handleTabChange}
