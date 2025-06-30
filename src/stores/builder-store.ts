@@ -13,7 +13,6 @@ interface BuilderStore extends BuilderState {
   selectSection: (sectionId: string | null) => void;
   setDragging: (isDragging: boolean) => void;
   importSections: (sections: BuilderSection[]) => void;
-  clearAllSections: () => void;
 }
 
 export const useBuilderStore = create<BuilderStore>()(
@@ -114,18 +113,6 @@ export const useBuilderStore = create<BuilderStore>()(
           },
           false,
           "importSections"
-        );
-      },
-
-      clearAllSections: () => {
-        set(
-          {
-            sections: [],
-            selectedSectionId: null,
-            isDragging: false,
-          },
-          false,
-          "clearAllSections"
         );
       },
     }),

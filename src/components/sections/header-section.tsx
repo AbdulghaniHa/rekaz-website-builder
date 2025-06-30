@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface HeaderSectionProps {
   logo?: string;
@@ -27,7 +28,14 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             {logo && (
-              <img src={logo} alt={brandName} className="h-8 w-8 mr-3" />
+              <Image
+                src={logo}
+                alt={brandName}
+                width={32}
+                height={32}
+                className="h-8 w-8 mr-3"
+                unoptimized={true}
+              />
             )}
             <span className="text-xl font-bold text-gray-900">{brandName}</span>
           </div>

@@ -33,7 +33,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
 }) => {
   const sections = useBuilderStore((state) => state.sections);
   const importSections = useBuilderStore((state) => state.importSections);
-  const clearAllSections = useBuilderStore((state) => state.clearAllSections);
   const [pageName, setPageName] = useState("My Website");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);

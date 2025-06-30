@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Search, Bell, User, Menu } from "lucide-react";
@@ -54,7 +55,14 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               {logo ? (
-                <img src={logo} alt={brandName} className="h-8 w-8" />
+                <Image
+                  src={logo}
+                  alt={brandName}
+                  width={32}
+                  height={32}
+                  className="h-8 w-8"
+                  unoptimized={true}
+                />
               ) : (
                 <div className="h-8 w-8 bg-blue-600 rounded-md flex items-center justify-center">
                   <Zap className="h-5 w-5 text-white" />

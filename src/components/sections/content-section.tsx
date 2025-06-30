@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface ContentSectionProps {
   title?: string;
@@ -45,10 +46,13 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
 
           <div className={layout === "right" ? "lg:col-start-1" : ""}>
             {image ? (
-              <img
+              <Image
                 src={image}
                 alt={title}
+                width={600}
+                height={256}
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
+                unoptimized={true}
               />
             ) : (
               <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
