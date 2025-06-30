@@ -24,7 +24,6 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
   const [activeCategory, setActiveCategory] =
     useState<SectionTemplate["category"]>("layout");
   const [searchQuery, setSearchQuery] = useState("");
-  const handleDragStart = (template: SectionTemplate) => {};
 
   const activeSections = getSectionsByCategory(activeCategory).filter(
     (template) =>
@@ -102,7 +101,7 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
               >
                 <SectionTemplateCard
                   template={template}
-                  onDragStart={handleDragStart}
+                  onDragStart={() => {}}
                   onSectionAdded={onSectionAdded}
                 />
               </motion.div>

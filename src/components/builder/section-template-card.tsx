@@ -18,9 +18,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
   onSectionAdded,
 }) => {
   const addSection = useBuilderStore((state) => state.addSection);
-  const IconComponent = template.icon as React.ElementType;
-  const handleDragStart = (event: React.DragEvent) => {
-    event.dataTransfer.setData(
+  const IconComponent = template.icon as React.ElementType;const handleDragStart = (event: React.DragEvent) => {event.dataTransfer.setData(
       "application/json",
       JSON.stringify({
         type: "template",
@@ -32,8 +30,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
 
   const handleQuickAdd = (event: React.MouseEvent) => {
     event.preventDefault();
-    event.stopPropagation();
-    addSection(template.id);
+    event.stopPropagation();addSection(template.id);
 
     // Call the callback if provided (for mobile auto-minimize)
     if (onSectionAdded) {

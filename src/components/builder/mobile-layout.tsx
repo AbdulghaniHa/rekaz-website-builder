@@ -43,7 +43,7 @@ export const MobileLayout: React.FC = () => {
   };
 
   // Mobile callback for switching from hierarchy to properties
-  const handleEditPropertiesMobile = (sectionId: string) => {
+  const handleEditPropertiesMobile = () => {
     setActiveTab("properties");
     // Panel should stay open since we're switching tabs
   };
