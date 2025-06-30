@@ -1,8 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useBuilder } from "@/contexts/builder-context";
+import {
+  useBuilderSections,
+  useSelectedSectionId,
+  useBuilderActions,
+} from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import * as Icons from "lucide-react";
@@ -177,11 +181,13 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
 };
 
 export const PropertiesPanel: React.FC = () => {
-  const { state, updateSection, selectSection } = useBuilder();
+  const sections = useBuilderSections();
+  const selectedSectionId = useSelectedSectionId();
+  const { updateSection, selectSection } = useBuilderActions();
   const { isCollapsed, toggleCollapsed } = usePropertiesPanelStore();
 
-  const selectedSection = state.sections.find(
-    (section) => section.id === state.selectedSectionId
+  const selectedSection = sections.find(
+    (section) => section.id === selectedSectionId
   );
 
   const template = selectedSection

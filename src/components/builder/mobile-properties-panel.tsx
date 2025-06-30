@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useBuilder } from "@/contexts/builder-context";
+import { useBuilderSections, useSelectedSectionId, useBuilderActions } from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { PropertyField } from "./property-field";
 import { Button } from "@/components/ui/button";
@@ -17,10 +17,12 @@ interface PropertyFieldProps {
 }
 
 export const MobilePropertiesPanel: React.FC = () => {
-  const { state, updateSection, selectSection } = useBuilder();
+  const sections = useBuilderSections();
+  const selectedSectionId = useSelectedSectionId();
+  const { updateSection, selectSection } = useBuilderActions();
 
-  const selectedSection = state.sections.find(
-    (section) => section.id === state.selectedSectionId
+  const selectedSection = sections.find(
+    (section) => section.id === selectedSectionId
   );
 
   const template = selectedSection

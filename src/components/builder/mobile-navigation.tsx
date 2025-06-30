@@ -3,7 +3,10 @@
 import React from "react";
 import { motion } from "motion/react";
 import * as Icons from "lucide-react";
-import { useBuilder } from "@/contexts/builder-context";
+import {
+  useBuilderSections,
+  useSelectedSectionId,
+} from "@/stores/builder-store";
 
 interface MobileNavigationProps {
   activeTab: "canvas" | "components" | "hierarchy" | "properties" | "export";
@@ -56,7 +59,8 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   onTabChange,
   isPanelOpen,
 }) => {
-  const { state } = useBuilder();
+  const sections = useBuilderSections();
+  const selectedSectionId = useSelectedSectionId();
 
   console.log("MobileNavigation rendered with activeTab:", activeTab);
 
@@ -69,10 +73,9 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
             const IconComponent = tab.icon;
 
             // Special badge logic
-            const showBadge =
-              tab.id === "hierarchy" && state.sections.length > 0;
+            const showBadge = tab.id === "hierarchy" && sections.length > 0;
             const showSelectedBadge =
-              tab.id === "properties" && state.selectedSectionId;
+              tab.id === "properties" && selectedSectionId;
 
             return (
               <motion.button
@@ -135,7 +138,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                       }}
                       className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg"
                     >
-                      {state.sections.length}
+                      {sections.length}
                     </motion.div>
                   )}
 

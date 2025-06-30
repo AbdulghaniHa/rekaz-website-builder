@@ -14,7 +14,7 @@ import {
   DialogOverlay,
   DialogPortal,
 } from "@/components/ui/dialog";
-import { useBuilder } from "@/contexts/builder-context";
+import { useBuilderSections, useBuilderActions } from "@/stores/builder-store";
 import {
   downloadPageConfiguration,
   importFromFile,
@@ -31,7 +31,8 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { state, importSections, clearAllSections } = useBuilder();
+  const sections = useBuilderSections();
+  const { importSections, clearAllSections } = useBuilderActions();
   const [pageName, setPageName] = useState("My Website");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
@@ -43,10 +44,8 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   const handleExport = () => {
     console.log("Exporting page configuration");
     try {
-      downloadPageConfiguration(state.sections, pageName);
-      setImportSuccess(
-        `Successfully exported ${state.sections.length} sections!`
-      );
+      downloadPageConfiguration(sections, pageName);
+      setImportSuccess(`Successfully exported ${sections.length} sections!`);
       setImportError(null);
       setImportSuccess(null);
     } catch (error) {
@@ -176,14 +175,14 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                     <Icons.FileText size={16} className="text-gray-500" />
                     <div>
                       <p className="text-sm font-medium text-gray-700">
-                        {state.sections.length} sections
+                        {sections.length} sections
                       </p>
                       <p className="text-xs text-gray-500">Ready to export</p>
                     </div>
                   </div>
                   <Button
                     onClick={handleExport}
-                    disabled={state.sections.length === 0}
+                    disabled={sections.length === 0}
                     className="bg-blue-600 hover:bg-blue-700"
                   >
                     <Icons.Download size={16} className="mr-2" />
@@ -249,12 +248,12 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
               </p>
               <Button
                 onClick={handleClearAll}
-                disabled={state.sections.length === 0}
+                disabled={sections.length === 0}
                 variant="outline"
                 className="w-full text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
               >
                 <Icons.Trash2 size={16} className="mr-2" />
-                Clear All ({state.sections.length} sections)
+                Clear All ({sections.length} sections)
               </Button>
             </div>
 

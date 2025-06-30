@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { SectionTemplate } from "@/types/builder";
-import { useBuilder } from "@/contexts/builder-context";
+import { useBuilderActions } from "@/stores/builder-store";
 import * as Icons from "lucide-react";
 
 interface SectionTemplateCardProps {
@@ -17,7 +17,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
   onDragStart,
   onSectionAdded,
 }) => {
-  const { addSection } = useBuilder();
+  const { addSection } = useBuilderActions();
   const IconComponent = Icons[
     template.icon as keyof typeof Icons
   ] as React.ComponentType<{ size?: number; className?: string }>;

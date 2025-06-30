@@ -3,7 +3,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { useBuilder } from "@/contexts/builder-context";
+import {
+  useBuilderSections,
+  useSelectedSectionId,
+  useIsDragging,
+  useBuilderActions,
+} from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { DragData } from "@/types/builder";
 import { ImportExportPanel } from "./import-export-panel";
@@ -14,10 +19,13 @@ interface CanvasProps {
 }
 
 export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
-  const { state, addSection, selectSection, setDragging } = useBuilder();
+  const sections = useBuilderSections();
+  const selectedSectionId = useSelectedSectionId();
+  const isDragging = useIsDragging();
+  const { addSection, selectSection, setDragging } = useBuilderActions();
   const [isImportExportOpen, setIsImportExportOpen] = useState(false);
 
-  console.log("Canvas rendered with sections:", state.sections.length);
+  console.log("Canvas rendered with sections:", sections.length);
 
   const handleImportExportToggle = () => {
     console.log("Toggling import/export panel from canvas");
@@ -81,16 +89,16 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
               Live Preview
             </h2>
             <p className="text-sm text-gray-500">
-              {state.sections.length === 0
+              {sections.length === 0
                 ? "Drop sections here to start building"
-                : `${state.sections.length} section${
-                    state.sections.length === 1 ? "" : "s"
+                : `${sections.length} section${
+                    sections.length === 1 ? "" : "s"
                   } added`}
             </p>
           </div>
 
           <div className="flex items-center space-x-3">
-            {state.sections.length > 0 && (
+            {sections.length > 0 && (
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-500">Live preview</span>
@@ -114,7 +122,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
       {/* Canvas Area */}
       <div
         className={`flex-1 overflow-y-auto transition-all duration-200 ${
-          state.isDragging
+          isDragging
             ? "bg-blue-50 border-2 border-dashed border-blue-300"
             : "bg-gray-50"
         }`}
@@ -123,7 +131,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        {state.sections.length === 0 ? (
+        {sections.length === 0 ? (
           // Empty State
           <div className="h-full flex items-center justify-center">
             <motion.div
@@ -139,8 +147,8 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
               </h3>
               <p className="text-gray-500 mb-6">
                 Drag sections from the left sidebar and drop them here to start
-                creating your website. You'll see a live preview of your changes
-                instantly.
+                creating your website. You&apos;ll see a live preview of your
+                changes instantly.
               </p>
               <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
                 <Icons.ArrowLeft size={16} />
@@ -154,9 +162,9 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
           // Sections Preview - Full Width Layout
           <div className="min-h-full">
             <AnimatePresence>
-              {state.sections
+              {sections
                 .sort((a, b) => a.order - b.order)
-                .map((section, index) => {
+                .map((section) => {
                   const template = getSectionTemplate(section.templateId);
                   if (!template) {
                     console.warn("Template not found for section:", section);
@@ -164,7 +172,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
                   }
 
                   const SectionComponent = template.component;
-                  const isSelected = state.selectedSectionId === section.id;
+                  const isSelected = selectedSectionId === section.id;
 
                   return (
                     <motion.div
@@ -200,7 +208,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
         )}
 
         {/* Drop Zone Indicator */}
-        {state.isDragging && (
+        {isDragging && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

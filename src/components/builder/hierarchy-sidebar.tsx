@@ -2,7 +2,11 @@
 
 import React from "react";
 import { motion, Reorder } from "motion/react";
-import { useBuilder } from "@/contexts/builder-context";
+import {
+  useBuilderSections,
+  useSelectedSectionId,
+  useBuilderActions,
+} from "@/stores/builder-store";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import * as Icons from "lucide-react";
@@ -21,14 +25,13 @@ interface HierarchySidebarProps {
 export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
   onEditPropertiesMobile,
 }) => {
-  const { state, removeSection, selectSection, setSectionsOrder } =
-    useBuilder();
+  const sections = useBuilderSections();
+  const selectedSectionId = useSelectedSectionId();
+  const { removeSection, selectSection, setSectionsOrder } =
+    useBuilderActions();
   const { setCollapsed } = usePropertiesPanelStore();
 
-  console.log(
-    "HierarchySidebar rendered with sections:",
-    state.sections.length
-  );
+  console.log("HierarchySidebar rendered with sections:", sections.length);
 
   const handleSectionClick = (sectionId: string) => {
     console.log("Hierarchy section clicked:", sectionId);
@@ -55,7 +58,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
     removeSection(sectionId);
   };
 
-  const sortedSections = [...state.sections].sort((a, b) => a.order - b.order);
+  const sortedSections = [...sections].sort((a, b) => a.order - b.order);
 
   const handleReorder = (newOrder: typeof sortedSections) => {
     console.log(
@@ -73,18 +76,18 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
           <h2 className="text-xl font-semibold text-gray-900">
             Page Structure
           </h2>
-          {state.sections.length > 0 && (
+          {sections.length > 0 && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               className="bg-blue-500 text-white text-xs font-medium px-2.5 py-1 rounded-full"
             >
-              {state.sections.length}
+              {sections.length}
             </motion.div>
           )}
         </div>
         <p className="text-sm text-gray-600">
-          {state.sections.length === 0
+          {sections.length === 0
             ? "No sections added yet"
             : "Click to select • Drag to reorder • Hover for actions"}
         </p>
@@ -119,11 +122,11 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
               onReorder={handleReorder}
               className="space-y-3 list-none"
             >
-              {sortedSections.map((section, index) => {
+              {sortedSections.map((section) => {
                 const template = getSectionTemplate(section.templateId);
                 if (!template) return null;
 
-                const isSelected = state.selectedSectionId === section.id;
+                const isSelected = selectedSectionId === section.id;
                 const IconComponent = Icons[
                   template.icon as keyof typeof Icons
                 ] as React.ComponentType<{ size?: number; className?: string }>;
@@ -218,7 +221,10 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <Icons.MoreVertical size={16} className="text-gray-400 hover:text-gray-600" />
+                                <Icons.MoreVertical
+                                  size={16}
+                                  className="text-gray-400 hover:text-gray-600"
+                                />
                               </motion.button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-48">
@@ -266,13 +272,13 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
       <motion.div className="p-6 border-t border-gray-100 bg-gray-50" layout>
         <div className="text-center">
           <p className="text-sm text-gray-600 mb-2">
-            {state.sections.length > 0
-              ? `${state.sections.length} section${
-                  state.sections.length === 1 ? "" : "s"
+            {sections.length > 0
+              ? `${sections.length} section${
+                  sections.length === 1 ? "" : "s"
                 } in your page`
               : "Your page structure will appear here"}
           </p>
-          {state.selectedSectionId && (
+          {selectedSectionId && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
