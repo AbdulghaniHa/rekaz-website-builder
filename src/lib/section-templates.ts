@@ -91,13 +91,11 @@ export const sectionTemplates: SectionTemplate[] = [
 ];
 
 export const getSectionTemplate = (id: string): SectionTemplate | undefined => {
-  console.log("Getting section template for id:", id);
   return sectionTemplates.find((template) => template.id === id);
 };
 
 export const getSectionsByCategory = (
   category: SectionTemplate["category"]
 ): SectionTemplate[] => {
-  console.log("Getting sections by category:", category);
   return sectionTemplates.filter((template) => template.category === category);
 };

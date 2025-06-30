@@ -6,8 +6,6 @@ export interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
-    console.log("Input component rendered with type:", type);
-
     return (
       <input
         type={type}

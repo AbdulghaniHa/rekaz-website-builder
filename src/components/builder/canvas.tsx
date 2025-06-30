@@ -8,7 +8,13 @@ import { useBuilderStore } from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { DragData } from "@/types/builder";
 import { ImportExportPanel } from "./import-export-panel";
-import { Download, MousePointer2, ArrowLeft, ArrowRight, Plus } from "lucide-react";
+import {
+  Download,
+  MousePointer2,
+  ArrowLeft,
+  ArrowRight,
+  Plus,
+} from "lucide-react";
 
 interface CanvasProps {
   className?: string;
@@ -23,11 +29,7 @@ export function Canvas({ className, onSectionAdded }: CanvasProps) {
   const selectSection = useBuilderStore((state) => state.selectSection);
   const setDragging = useBuilderStore((state) => state.setDragging);
   const [isImportExportOpen, setIsImportExportOpen] = useState(false);
-
-  console.log("Canvas rendered with sections:", sections.length);
-
   const handleImportExportToggle = () => {
-    console.log("Toggling import/export panel from canvas");
     setIsImportExportOpen(!isImportExportOpen);
   };
 
@@ -57,10 +59,7 @@ export function Canvas({ className, onSectionAdded }: CanvasProps) {
       const data: DragData = JSON.parse(
         event.dataTransfer.getData("application/json")
       );
-      console.log("Drop event with data:", data);
-
       if (data.type === "template" && data.templateId) {
-        console.log("Adding section from template:", data.templateId);
         addSection(data.templateId);
 
         // Call the callback if provided (for mobile auto-minimize)
@@ -74,7 +73,6 @@ export function Canvas({ className, onSectionAdded }: CanvasProps) {
   };
 
   const handleSectionClick = (sectionId: string) => {
-    console.log("Section clicked:", sectionId);
     selectSection(sectionId);
   };
 

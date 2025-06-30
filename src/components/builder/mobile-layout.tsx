@@ -24,9 +24,6 @@ export const MobileLayout: React.FC = () => {
   >("canvas");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isImportExportOpen, setIsImportExportOpen] = useState(false);
-
-  console.log("Mobile layout rendered with active tab:", activeTab);
-
   const handleTabChange = (tab: typeof activeTab) => {
     if (tab === "canvas") {
       setIsPanelOpen(false);
@@ -47,14 +44,12 @@ export const MobileLayout: React.FC = () => {
 
   // Mobile callback for switching from hierarchy to properties
   const handleEditPropertiesMobile = (sectionId: string) => {
-    console.log("Switching to properties tab for section:", sectionId);
     setActiveTab("properties");
     // Panel should stay open since we're switching tabs
   };
 
   // Mobile callback for auto-minimizing when section is added
   const handleSectionAddedMobile = () => {
-    console.log("Section added in mobile, minimizing panel for better UX");
     setIsPanelOpen(false);
     setActiveTab("canvas");
   };

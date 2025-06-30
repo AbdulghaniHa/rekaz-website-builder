@@ -58,9 +58,6 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
 }) => {
   const sections = useBuilderStore((state) => state.sections);
   const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
-
-  console.log("MobileNavigation rendered with activeTab:", activeTab);
-
   return (
     <div className="mobile-navigation-container">
       <div className="bg-white border-t border-gray-200 px-2 py-2 safe-area-bottom mobile-no-select">

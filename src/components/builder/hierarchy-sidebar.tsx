@@ -5,13 +5,7 @@ import { motion, Reorder } from "motion/react";
 import { useBuilderStore } from "@/stores/builder-store";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import { getSectionTemplate } from "@/lib/section-templates";
-import {
-  Layers,
-  GripVertical,
-  MoreVertical,
-  Edit,
-  Trash2,
-} from "lucide-react";
+import { Layers, GripVertical, MoreVertical, Edit, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,17 +27,12 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
   const selectSection = useBuilderStore((state) => state.selectSection);
   const setSectionsOrder = useBuilderStore((state) => state.setSectionsOrder);
   const { setCollapsed } = usePropertiesPanelStore();
-
-  console.log("HierarchySidebar rendered with sections:", sections.length);
-
   const handleSectionClick = (sectionId: string) => {
-    console.log("Hierarchy section clicked:", sectionId);
     selectSection(sectionId);
   };
 
   const handleEditSection = (sectionId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log("Editing section:", sectionId);
     selectSection(sectionId);
 
     // If we have a mobile callback, use it (for mobile drawer behavior)
@@ -57,7 +46,6 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
 
   const handleDeleteSection = (sectionId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log("Deleting section:", sectionId);
     removeSection(sectionId);
   };
 

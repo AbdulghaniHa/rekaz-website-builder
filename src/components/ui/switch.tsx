@@ -6,8 +6,6 @@ const Switch = forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {
-  console.log("Switch component rendered with checked:", props.checked);
-
   return (
     <SwitchPrimitives.Root
       className={cn(

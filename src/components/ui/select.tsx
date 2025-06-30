@@ -13,8 +13,6 @@ const SelectTrigger = forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => {
-  console.log("SelectTrigger rendered");
-
   return (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -73,8 +71,6 @@ const SelectContent = forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = "popper", ...props }, ref) => {
-  console.log("SelectContent rendered");
-
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content

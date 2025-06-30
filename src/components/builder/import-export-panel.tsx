@@ -20,7 +20,13 @@ import {
   importFromFile,
   PageConfiguration,
 } from "@/lib/import-export";
-import { Download, Upload, FileText, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Download,
+  Upload,
+  FileText,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 interface ImportExportPanelProps {
   isOpen: boolean;
@@ -38,11 +44,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   const [importError, setImportError] = useState<string | null>(null);
   const [importSuccess, setImportSuccess] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  console.log("ImportExportPanel rendered, isOpen:", isOpen);
-
   const handleExport = () => {
-    console.log("Exporting page configuration");
     try {
       downloadPageConfiguration(sections, pageName);
       setImportSuccess(`Successfully exported ${sections.length} sections!`);
@@ -56,7 +58,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   };
 
   const handleImportClick = () => {
-    console.log("Opening file dialog for import");
     fileInputRef.current?.click();
   };
 
@@ -65,8 +66,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   ) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
-    console.log("File selected for import:", file.name);
     setIsImporting(true);
     setImportError(null);
     setImportSuccess(null);
@@ -221,7 +220,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
               </div>
             </div>
 
-
             {/* Status Messages */}
             <AnimatePresence>
               {importError && (
@@ -232,10 +230,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                   className="p-3 bg-red-50 border border-red-200 rounded-lg"
                 >
                   <div className="flex items-center">
-                    <AlertCircle
-                      size={16}
-                      className="text-red-600 mr-2"
-                    />
+                    <AlertCircle size={16} className="text-red-600 mr-2" />
                     <p className="text-sm text-red-700">{importError}</p>
                   </div>
                 </motion.div>
@@ -249,10 +244,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                   className="p-3 bg-green-50 border border-green-200 rounded-lg"
                 >
                   <div className="flex items-center">
-                    <CheckCircle
-                      size={16}
-                      className="text-green-600 mr-2"
-                    />
+                    <CheckCircle size={16} className="text-green-600 mr-2" />
                     <p className="text-sm text-green-700">{importSuccess}</p>
                   </div>
                 </motion.div>

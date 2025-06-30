@@ -24,12 +24,7 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
   const [activeCategory, setActiveCategory] =
     useState<SectionTemplate["category"]>("layout");
   const [searchQuery, setSearchQuery] = useState("");
-
-  console.log("BuilderSidebar rendered, activeCategory:", activeCategory);
-
-  const handleDragStart = (template: SectionTemplate) => {
-    console.log("Drag started in sidebar for template:", template.name);
-  };
+  const handleDragStart = (template: SectionTemplate) => {};
 
   const activeSections = getSectionsByCategory(activeCategory).filter(
     (template) =>

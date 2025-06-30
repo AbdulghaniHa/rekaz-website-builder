@@ -18,8 +18,6 @@ export const exportPageConfiguration = (
   sections: BuilderSection[],
   pageName: string = "Untitled Page"
 ): PageConfiguration => {
-  console.log("Exporting page configuration with", sections.length, "sections");
-
   const templateIds = [...new Set(sections.map((s) => s.templateId))];
 
   const config: PageConfiguration = {
@@ -36,8 +34,6 @@ export const exportPageConfiguration = (
       templateIds,
     },
   };
-
-  console.log("Page configuration exported:", config);
   return config;
 };
 
@@ -48,8 +44,6 @@ export const downloadPageConfiguration = (
   sections: BuilderSection[],
   pageName: string = "Untitled Page"
 ): void => {
-  console.log("Downloading page configuration as JSON file");
-
   try {
     const config = exportPageConfiguration(sections, pageName);
     const jsonString = JSON.stringify(config, null, 2);
@@ -67,7 +61,6 @@ export const downloadPageConfiguration = (
     document.body.removeChild(link);
 
     URL.revokeObjectURL(url);
-    console.log("Page configuration downloaded successfully");
   } catch (error) {
     console.error("Error downloading page configuration:", error);
     throw new Error("Failed to download page configuration");
@@ -78,8 +71,6 @@ export const downloadPageConfiguration = (
  * Validate imported page configuration
  */
 export const validatePageConfiguration = (data: any): PageConfiguration => {
-  console.log("Validating imported page configuration");
-
   if (!data || typeof data !== "object") {
     throw new Error("Invalid configuration file: Not a valid JSON object");
   }
@@ -109,8 +100,6 @@ export const validatePageConfiguration = (data: any): PageConfiguration => {
       throw new Error("Invalid section: Missing or invalid order");
     }
   }
-
-  console.log("Page configuration validation successful");
   return data as PageConfiguration;
 };
 
@@ -120,8 +109,6 @@ export const validatePageConfiguration = (data: any): PageConfiguration => {
 export const importPageConfiguration = (
   jsonString: string
 ): PageConfiguration => {
-  console.log("Importing page configuration from JSON");
-
   try {
     const data = JSON.parse(jsonString);
     return validatePageConfiguration(data);
@@ -138,8 +125,6 @@ export const importPageConfiguration = (
  * Import page configuration from file
  */
 export const importFromFile = (file: File): Promise<PageConfiguration> => {
-  console.log("Importing page configuration from file:", file.name);
-
   return new Promise((resolve, reject) => {
     if (!file.type.includes("json") && !file.name.endsWith(".json")) {
       reject(new Error("Please select a valid JSON file"));
@@ -152,7 +137,6 @@ export const importFromFile = (file: File): Promise<PageConfiguration> => {
       try {
         const jsonString = event.target?.result as string;
         const config = importPageConfiguration(jsonString);
-        console.log("File import successful:", config.name);
         resolve(config);
       } catch (error) {
         console.error("File import error:", error);
