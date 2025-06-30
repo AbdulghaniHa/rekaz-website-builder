@@ -3,8 +3,8 @@
 import React from "react";
 import { motion } from "motion/react";
 import { SectionTemplate } from "@/types/builder";
-import { useBuilderActions } from "@/stores/builder-store";
-import * as Icons from "lucide-react";
+import { useBuilderStore } from "@/stores/builder-store";
+import { Plus, GripVertical } from "lucide-react";
 
 interface SectionTemplateCardProps {
   template: SectionTemplate;
@@ -17,10 +17,8 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
   onDragStart,
   onSectionAdded,
 }) => {
-  const { addSection } = useBuilderActions();
-  const IconComponent = Icons[
-    template.icon as keyof typeof Icons
-  ] as React.ComponentType<{ size?: number; className?: string }>;
+  const addSection = useBuilderStore((state) => state.addSection);
+  const IconComponent = template.icon as React.ElementType;
 
   console.log("SectionTemplateCard rendered for template:", template.name);
 
@@ -101,7 +99,7 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
                 whileTap={{ scale: 0.95 }}
                 title="Add to canvas"
               >
-                <Icons.Plus size={16} />
+                <Plus size={16} />
               </motion.button>
             </div>
           </div>
@@ -118,12 +116,12 @@ export const SectionTemplateCard: React.FC<SectionTemplateCardProps> = ({
               whileTap={{ scale: 0.9 }}
               title="Add to canvas"
             >
-              <Icons.Plus size={14} />
+              <Plus size={14} />
             </motion.button>
 
             {/* Drag indicator */}
             <div className="bg-gray-100 rounded p-1">
-              <Icons.GripVertical size={12} className="text-gray-400" />
+              <GripVertical size={12} className="text-gray-400" />
             </div>
           </div>
         </div>

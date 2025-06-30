@@ -2,11 +2,8 @@
 
 import React from "react";
 import { motion } from "motion/react";
-import * as Icons from "lucide-react";
-import {
-  useBuilderSections,
-  useSelectedSectionId,
-} from "@/stores/builder-store";
+import { Monitor, Package, Layers3, Settings, Download } from "lucide-react";
+import { useBuilderStore } from "@/stores/builder-store";
 
 interface MobileNavigationProps {
   activeTab: "canvas" | "components" | "hierarchy" | "properties" | "export";
@@ -20,35 +17,35 @@ const tabConfig = [
   {
     id: "canvas" as const,
     label: "Canvas",
-    icon: Icons.Monitor,
+    icon: Monitor,
     color: "text-blue-600",
     bgColor: "bg-blue-100",
   },
   {
     id: "components" as const,
     label: "Components",
-    icon: Icons.Package,
+    icon: Package,
     color: "text-purple-600",
     bgColor: "bg-purple-100",
   },
   {
     id: "hierarchy" as const,
     label: "Structure",
-    icon: Icons.Layers3,
+    icon: Layers3,
     color: "text-green-600",
     bgColor: "bg-green-100",
   },
   {
     id: "properties" as const,
     label: "Properties",
-    icon: Icons.Settings,
+    icon: Settings,
     color: "text-orange-600",
     bgColor: "bg-orange-100",
   },
   {
     id: "export" as const,
     label: "Export",
-    icon: Icons.Download,
+    icon: Download,
     color: "text-indigo-600",
     bgColor: "bg-indigo-100",
   },
@@ -59,8 +56,8 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   onTabChange,
   isPanelOpen,
 }) => {
-  const sections = useBuilderSections();
-  const selectedSectionId = useSelectedSectionId();
+  const sections = useBuilderStore((state) => state.sections);
+  const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
 
   console.log("MobileNavigation rendered with activeTab:", activeTab);
 

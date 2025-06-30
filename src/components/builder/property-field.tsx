@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import * as Icons from "lucide-react";
+import { Link, Plus, X } from "lucide-react";
 
 interface PropertyFieldProps {
   label: string;
@@ -98,7 +98,7 @@ export const PropertyField: React.FC<PropertyFieldProps> = ({
                     onChange(newArray);
                   }}
                 >
-                  <Icons.X size={14} />
+                  <X size={14} />
                 </Button>
               </div>
             ))}
@@ -108,7 +108,7 @@ export const PropertyField: React.FC<PropertyFieldProps> = ({
               onClick={() => onChange([...arrayValue, ""])}
               className="w-full"
             >
-              <Icons.Plus size={14} className="mr-2" />
+              <Plus size={14} className="mr-2" />
               Add Item
             </Button>
           </div>
@@ -119,7 +119,7 @@ export const PropertyField: React.FC<PropertyFieldProps> = ({
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">{label}</Label>
           <div className="relative">
-            <Icons.Link
+            <Link
               size={16}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />

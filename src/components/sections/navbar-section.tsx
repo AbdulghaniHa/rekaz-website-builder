@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import * as Icons from "lucide-react";
+import { Zap, Search, Bell, User, Menu } from "lucide-react";
 
 interface NavbarSectionProps {
   brandName?: string;
@@ -57,7 +57,7 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
                 <img src={logo} alt={brandName} className="h-8 w-8" />
               ) : (
                 <div className="h-8 w-8 bg-blue-600 rounded-md flex items-center justify-center">
-                  <Icons.Zap className="h-5 w-5 text-white" />
+                  <Zap className="h-5 w-5 text-white" />
                 </div>
               )}
               <span className="text-xl font-bold text-gray-900">
@@ -94,7 +94,7 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
                 size="sm"
                 className="hidden md:flex items-center space-x-2"
               >
-                <Icons.Search className="h-4 w-4" />
+                <Search className="h-4 w-4" />
                 <span className="text-sm">Search</span>
               </Button>
             )}
@@ -103,7 +103,7 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
             {showNotifications && (
               <div className="relative">
                 <Button variant="ghost" size="sm">
-                  <Icons.Bell className="h-5 w-5" />
+                  <Bell className="h-5 w-5" />
                 </Button>
                 <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs">
                   3
@@ -124,7 +124,7 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
                 className="flex items-center space-x-2"
               >
                 <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <Icons.User className="h-4 w-4" />
+                  <User className="h-4 w-4" />
                 </div>
                 <span className="hidden sm:block text-sm">John Doe</span>
               </Button>
@@ -132,7 +132,7 @@ export const NavbarSection: React.FC<NavbarSectionProps> = ({
 
             {/* Mobile Menu */}
             <Button variant="ghost" size="sm" className="md:hidden">
-              <Icons.Menu className="h-5 w-5" />
+              <Menu className="h-5 w-5" />
             </Button>
           </div>
         </div>

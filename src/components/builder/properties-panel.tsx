@@ -2,14 +2,10 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  useBuilderSections,
-  useSelectedSectionId,
-  useBuilderActions,
-} from "@/stores/builder-store";
+import { useBuilderStore } from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
-import * as Icons from "lucide-react";
+import { Link, Plus, X, Settings, MousePointer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -109,7 +105,7 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
                     onChange(newArray);
                   }}
                 >
-                  <Icons.X size={14} />
+                  <X size={14} />
                 </Button>
               </div>
             ))}
@@ -119,7 +115,7 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
               onClick={() => onChange([...arrayValue, ""])}
               className="w-full"
             >
-              <Icons.Plus size={14} className="mr-2" />
+              <Plus size={14} className="mr-2" />
               Add Item
             </Button>
           </div>
@@ -131,7 +127,7 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">{label}</Label>
           <div className="relative">
-            <Icons.Link
+            <Link
               size={16}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
@@ -181,9 +177,10 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
 };
 
 export const PropertiesPanel: React.FC = () => {
-  const sections = useBuilderSections();
-  const selectedSectionId = useSelectedSectionId();
-  const { updateSection, selectSection } = useBuilderActions();
+  const sections = useBuilderStore((state) => state.sections);
+  const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
+  const updateSection = useBuilderStore((state) => state.updateSection);
+  const selectSection = useBuilderStore((state) => state.selectSection);
   const { isCollapsed, toggleCollapsed } = usePropertiesPanelStore();
 
   const selectedSection = sections.find(
@@ -228,7 +225,7 @@ export const PropertiesPanel: React.FC = () => {
                   : "Collapse Properties Panel"
               }
             >
-              <Icons.Settings size={16} />
+              <Settings size={16} />
             </Button>
           </div>
         </div>
@@ -244,7 +241,7 @@ export const PropertiesPanel: React.FC = () => {
             >
               <div className="text-center">
                 <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Icons.MousePointer size={32} className="text-gray-400" />
+                  <MousePointer size={32} className="text-gray-400" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
                   No Section Selected
@@ -329,9 +326,7 @@ export const PropertiesPanel: React.FC = () => {
     }
   };
 
-  const IconComponent = Icons[
-    template.icon as keyof typeof Icons
-  ] as React.ComponentType<{ size?: number; className?: string }>;
+  const IconComponent = template.icon as React.ElementType;
 
   return (
     <motion.div
@@ -375,7 +370,7 @@ export const PropertiesPanel: React.FC = () => {
                 : "Collapse Properties Panel"
             }
           >
-            <Icons.Settings size={16} />
+            <Settings size={16} />
           </Button>
         </div>
       </div>
@@ -443,7 +438,7 @@ export const PropertiesPanel: React.FC = () => {
                   onClick={() => selectSection(null)}
                   className="w-full"
                 >
-                  <Icons.X size={16} className="mr-2" />
+                  <X size={16} className="mr-2" />
                   Deselect Section
                 </Button>
               </div>

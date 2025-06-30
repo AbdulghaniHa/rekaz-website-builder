@@ -16,7 +16,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import * as Icons from "lucide-react";
+import { X } from "lucide-react";
 
 export const MobileLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -38,11 +38,6 @@ export const MobileLayout: React.FC = () => {
       setActiveTab(tab);
       setIsPanelOpen(true);
     }
-  };
-
-  const handlePanelClose = () => {
-    setIsPanelOpen(false);
-    setActiveTab("canvas");
   };
 
   const handleImportExportClose = () => {
@@ -119,7 +114,7 @@ export const MobileLayout: React.FC = () => {
               </div>
               <DrawerClose asChild>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <Icons.X size={16} />
+                  <X size={16} />
                 </Button>
               </DrawerClose>
             </div>
