@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { getSectionsByCategory } from "@/lib/section-templates";
 import { SectionTemplate } from "@/types/builder";
-import {
-  sectionTemplates,
-  getSectionsByCategory,
-} from "@/lib/section-templates";
+import { Search } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import React, { useState } from "react";
 import { SectionTemplateCard } from "./section-template-card";
-import * as Icons from "lucide-react";
 
 const categories = [
   { id: "layout", name: "Layout", icon: "Layout" },
@@ -55,7 +52,7 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
 
         {/* Search */}
         <div className="relative">
-          <Icons.Search
+          <Search
             size={16}
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
           />
@@ -73,12 +70,7 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
       <div className="p-4 border-b border-gray-200 bg-white">
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => {
-            const IconComponent = Icons[
-              category.icon as keyof typeof Icons
-            ] as React.ComponentType<{
-              size?: number;
-              className?: string;
-            }>;
+            const IconComponent = category.icon as React.ElementType;
             const isActive = activeCategory === category.id;
 
             return (
@@ -128,7 +120,7 @@ export const BuilderSidebar: React.FC<BuilderSidebarProps> = ({
               animate={{ opacity: 1 }}
               className="text-center py-8"
             >
-              <Icons.Search size={48} className="mx-auto text-gray-300 mb-4" />
+              <Search size={48} className="mx-auto text-gray-300 mb-4" />
               <p className="text-gray-500">No sections found</p>
               <p className="text-sm text-gray-400 mt-1">
                 Try adjusting your search

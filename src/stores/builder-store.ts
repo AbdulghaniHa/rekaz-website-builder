@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { useMemo } from "react";
 import { BuilderSection, BuilderState } from "@/types/builder";
 import { getSectionTemplate } from "@/lib/section-templates";
 
@@ -133,47 +132,3 @@ export const useBuilderStore = create<BuilderStore>()(
     { name: "builder-store" }
   )
 );
-
-// Selectors for better performance - components can subscribe to specific slices
-export const useBuilderSections = () =>
-  useBuilderStore((state) => state.sections);
-export const useSelectedSectionId = () =>
-  useBuilderStore((state) => state.selectedSectionId);
-export const useIsDragging = () => useBuilderStore((state) => state.isDragging);
-
-export const useBuilderActions = () => {
-  const addSection = useBuilderStore((state) => state.addSection);
-  const removeSection = useBuilderStore((state) => state.removeSection);
-  const updateSection = useBuilderStore((state) => state.updateSection);
-  const reorderSections = useBuilderStore((state) => state.reorderSections);
-  const setSectionsOrder = useBuilderStore((state) => state.setSectionsOrder);
-  const selectSection = useBuilderStore((state) => state.selectSection);
-  const setDragging = useBuilderStore((state) => state.setDragging);
-  const importSections = useBuilderStore((state) => state.importSections);
-  const clearAllSections = useBuilderStore((state) => state.clearAllSections);
-
-  return useMemo(
-    () => ({
-      addSection,
-      removeSection,
-      updateSection,
-      reorderSections,
-      setSectionsOrder,
-      selectSection,
-      setDragging,
-      importSections,
-      clearAllSections,
-    }),
-    [
-      addSection,
-      removeSection,
-      updateSection,
-      reorderSections,
-      setSectionsOrder,
-      selectSection,
-      setDragging,
-      importSections,
-      clearAllSections,
-    ]
-  );
-};

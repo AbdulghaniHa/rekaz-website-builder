@@ -2,14 +2,16 @@
 
 import React from "react";
 import { motion, Reorder } from "motion/react";
-import {
-  useBuilderSections,
-  useSelectedSectionId,
-  useBuilderActions,
-} from "@/stores/builder-store";
+import { useBuilderStore } from "@/stores/builder-store";
 import { usePropertiesPanelStore } from "@/stores/properties-panel-store";
 import { getSectionTemplate } from "@/lib/section-templates";
-import * as Icons from "lucide-react";
+import {
+  Layers,
+  GripVertical,
+  MoreVertical,
+  Edit,
+  Trash2,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,10 +27,11 @@ interface HierarchySidebarProps {
 export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
   onEditPropertiesMobile,
 }) => {
-  const sections = useBuilderSections();
-  const selectedSectionId = useSelectedSectionId();
-  const { removeSection, selectSection, setSectionsOrder } =
-    useBuilderActions();
+  const sections = useBuilderStore((state) => state.sections);
+  const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
+  const removeSection = useBuilderStore((state) => state.removeSection);
+  const selectSection = useBuilderStore((state) => state.selectSection);
+  const setSectionsOrder = useBuilderStore((state) => state.setSectionsOrder);
   const { setCollapsed } = usePropertiesPanelStore();
 
   console.log("HierarchySidebar rendered with sections:", sections.length);
@@ -103,7 +106,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
             className="text-center py-16 px-6"
           >
             <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Icons.Layers size={32} className="text-gray-400" />
+              <Layers size={32} className="text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No sections yet
@@ -127,9 +130,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                 if (!template) return null;
 
                 const isSelected = selectedSectionId === section.id;
-                const IconComponent = Icons[
-                  template.icon as keyof typeof Icons
-                ] as React.ComponentType<{ size?: number; className?: string }>;
+                const IconComponent = template.icon as React.ElementType;
 
                 return (
                   <Reorder.Item
@@ -175,7 +176,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <Icons.GripVertical
+                            <GripVertical
                               size={18}
                               className="text-gray-400 hover:text-gray-600"
                             />
@@ -221,7 +222,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <Icons.MoreVertical
+                                <MoreVertical
                                   size={16}
                                   className="text-gray-400 hover:text-gray-600"
                                 />
@@ -235,7 +236,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                                 }}
                                 className="cursor-pointer"
                               >
-                                <Icons.Edit size={16} className="mr-2" />
+                                <Edit size={16} className="mr-2" />
                                 Edit Properties
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
@@ -246,7 +247,7 @@ export const HierarchySidebar: React.FC<HierarchySidebarProps> = ({
                                 }}
                                 className="cursor-pointer text-red-600 focus:text-red-600"
                               >
-                                <Icons.Trash2 size={16} className="mr-2" />
+                                <Trash2 size={16} className="mr-2" />
                                 Delete Section
                               </DropdownMenuItem>
                             </DropdownMenuContent>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import { useState, useRef, forwardRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,13 +14,13 @@ import {
   DialogOverlay,
   DialogPortal,
 } from "@/components/ui/dialog";
-import { useBuilderSections, useBuilderActions } from "@/stores/builder-store";
+import { useBuilderStore } from "@/stores/builder-store";
 import {
   downloadPageConfiguration,
   importFromFile,
   PageConfiguration,
 } from "@/lib/import-export";
-import * as Icons from "lucide-react";
+import { Download, Upload, FileText, CheckCircle, AlertCircle } from "lucide-react";
 
 interface ImportExportPanelProps {
   isOpen: boolean;
@@ -31,8 +31,9 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
   isOpen,
   onClose,
 }) => {
-  const sections = useBuilderSections();
-  const { importSections, clearAllSections } = useBuilderActions();
+  const sections = useBuilderStore((state) => state.sections);
+  const importSections = useBuilderStore((state) => state.importSections);
+  const clearAllSections = useBuilderStore((state) => state.clearAllSections);
   const [pageName, setPageName] = useState("My Website");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
@@ -98,24 +99,11 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
     }
   };
 
-  const handleClearAll = () => {
-    console.log("Clearing all sections");
-    if (
-      window.confirm(
-        "Are you sure you want to clear all sections? This action cannot be undone."
-      )
-    ) {
-      clearAllSections();
-      setImportSuccess("All sections cleared!");
-      setImportSuccess(null);
-    }
-  };
-
   // Custom overlay with blur backdrop
-  const BlurOverlay = React.forwardRef<
+  const BlurOverlay = forwardRef<
     React.ElementRef<typeof DialogOverlay>,
     React.ComponentPropsWithoutRef<typeof DialogOverlay>
-  >(({ className, ...props }, ref) => (
+  >(({ ...props }, ref) => (
     <DialogOverlay
       ref={ref}
       className="fixed inset-0 z-50 bg-white/20 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
@@ -132,7 +120,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
           <DialogHeader>
             <div className="flex items-center space-x-3 mb-2">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <Icons.Download size={20} className="text-blue-600" />
+                <Download size={20} className="text-blue-600" />
               </div>
               <div>
                 <DialogTitle className="text-lg font-semibold text-gray-900 text-start">
@@ -149,7 +137,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
             {/* Export Section */}
             <div>
               <h3 className="text-md font-medium text-gray-900 mb-3 flex items-center">
-                <Icons.Upload size={16} className="mr-2 text-blue-600" />
+                <Upload size={16} className="mr-2 text-blue-600" />
                 Export Configuration
               </h3>
               <p className="text-sm text-gray-600 mb-4">
@@ -172,7 +160,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
 
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-2">
-                    <Icons.FileText size={16} className="text-gray-500" />
+                    <FileText size={16} className="text-gray-500" />
                     <div>
                       <p className="text-sm font-medium text-gray-700">
                         {sections.length} sections
@@ -185,7 +173,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                     disabled={sections.length === 0}
                     className="bg-blue-600 hover:bg-blue-700"
                   >
-                    <Icons.Download size={16} className="mr-2" />
+                    <Download size={16} className="mr-2" />
                     Export
                   </Button>
                 </div>
@@ -195,7 +183,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
             {/* Import Section */}
             <div>
               <h3 className="text-md font-medium text-gray-900 mb-3 flex items-center">
-                <Icons.Download size={16} className="mr-2 text-green-600" />
+                <Download size={16} className="mr-2 text-green-600" />
                 Import Configuration
               </h3>
               <p className="text-sm text-gray-600 mb-4">
@@ -216,7 +204,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                     </div>
                   ) : (
                     <div className="flex flex-col items-center p-4">
-                      <Icons.Upload size={24} className="text-gray-400 mb-2" />
+                      <Upload size={24} className="text-gray-400 mb-2" />
                       <span className="text-sm font-medium">
                         Click to select JSON file
                       </span>
@@ -237,25 +225,6 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
               </div>
             </div>
 
-            {/* Clear All Section */}
-            <div className="pt-4 border-t border-gray-200">
-              <h3 className="text-md font-medium text-gray-900 mb-3 flex items-center">
-                <Icons.Trash2 size={16} className="mr-2 text-red-600" />
-                Clear All Sections
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Remove all sections from the current page
-              </p>
-              <Button
-                onClick={handleClearAll}
-                disabled={sections.length === 0}
-                variant="outline"
-                className="w-full text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
-              >
-                <Icons.Trash2 size={16} className="mr-2" />
-                Clear All ({sections.length} sections)
-              </Button>
-            </div>
 
             {/* Status Messages */}
             <AnimatePresence>
@@ -267,7 +236,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                   className="p-3 bg-red-50 border border-red-200 rounded-lg"
                 >
                   <div className="flex items-center">
-                    <Icons.AlertCircle
+                    <AlertCircle
                       size={16}
                       className="text-red-600 mr-2"
                     />
@@ -284,7 +253,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                   className="p-3 bg-green-50 border border-green-200 rounded-lg"
                 >
                   <div className="flex items-center">
-                    <Icons.CheckCircle
+                    <CheckCircle
                       size={16}
                       className="text-green-600 mr-2"
                     />

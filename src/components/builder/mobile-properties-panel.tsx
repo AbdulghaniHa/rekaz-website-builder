@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { useBuilderSections, useSelectedSectionId, useBuilderActions } from "@/stores/builder-store";
+import { useBuilderStore } from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { PropertyField } from "./property-field";
 import { Button } from "@/components/ui/button";
-import * as Icons from "lucide-react";
+import { MousePointer, X } from "lucide-react";
 
 interface PropertyFieldProps {
   label: string;
@@ -17,9 +17,10 @@ interface PropertyFieldProps {
 }
 
 export const MobilePropertiesPanel: React.FC = () => {
-  const sections = useBuilderSections();
-  const selectedSectionId = useSelectedSectionId();
-  const { updateSection, selectSection } = useBuilderActions();
+  const sections = useBuilderStore((state) => state.sections);
+  const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
+  const updateSection = useBuilderStore((state) => state.updateSection);
+  const selectSection = useBuilderStore((state) => state.selectSection);
 
   const selectedSection = sections.find(
     (section) => section.id === selectedSectionId
@@ -35,7 +36,7 @@ export const MobilePropertiesPanel: React.FC = () => {
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="text-center">
             <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Icons.MousePointer size={32} className="text-gray-400" />
+              <MousePointer size={32} className="text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No Section Selected
@@ -160,7 +161,7 @@ export const MobilePropertiesPanel: React.FC = () => {
             onClick={() => selectSection(null)}
             className="w-full"
           >
-            <Icons.X size={16} className="mr-2" />
+            <X size={16} className="mr-2" />
             Deselect Section
           </Button>
         </div>

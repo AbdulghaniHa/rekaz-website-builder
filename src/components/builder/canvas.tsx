@@ -3,26 +3,25 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
-import {
-  useBuilderSections,
-  useSelectedSectionId,
-  useIsDragging,
-  useBuilderActions,
-} from "@/stores/builder-store";
+import { cn } from "@/lib/utils";
+import { useBuilderStore } from "@/stores/builder-store";
 import { getSectionTemplate } from "@/lib/section-templates";
 import { DragData } from "@/types/builder";
 import { ImportExportPanel } from "./import-export-panel";
-import * as Icons from "lucide-react";
+import { Download, MousePointer2, ArrowLeft, ArrowRight, Plus } from "lucide-react";
 
 interface CanvasProps {
+  className?: string;
   onSectionAdded?: () => void;
 }
 
-export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
-  const sections = useBuilderSections();
-  const selectedSectionId = useSelectedSectionId();
-  const isDragging = useIsDragging();
-  const { addSection, selectSection, setDragging } = useBuilderActions();
+export function Canvas({ className, onSectionAdded }: CanvasProps) {
+  const sections = useBuilderStore((state) => state.sections);
+  const selectedSectionId = useBuilderStore((state) => state.selectedSectionId);
+  const isDragging = useBuilderStore((state) => state.isDragging);
+  const addSection = useBuilderStore((state) => state.addSection);
+  const selectSection = useBuilderStore((state) => state.selectSection);
+  const setDragging = useBuilderStore((state) => state.setDragging);
   const [isImportExportOpen, setIsImportExportOpen] = useState(false);
 
   console.log("Canvas rendered with sections:", sections.length);
@@ -80,7 +79,12 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
   };
 
   return (
-    <div className="flex-1 h-screen bg-white lg:border-l lg:border-r border-gray-200 relative flex flex-col">
+    <div
+      className={cn(
+        "flex-1 h-screen bg-white lg:border-l lg:border-r border-gray-200 relative flex flex-col",
+        className
+      )}
+    >
       {/* Canvas Header */}
       <div className="p-4 border-b border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -112,7 +116,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
               variant="outline"
               className="inline-flex"
             >
-              <Icons.Download size={16} className="lg:mr-2" />
+              <Download size={16} className="lg:mr-2" />
               <span className="hidden lg:inline">Import / Export</span>
             </Button>
           </div>
@@ -140,7 +144,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
               className="text-center max-w-md mx-auto p-8"
             >
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Icons.MousePointer2 size={32} className="text-gray-400" />
+                <MousePointer2 size={32} className="text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 Start Building Your Website
@@ -151,9 +155,9 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
                 changes instantly.
               </p>
               <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
-                <Icons.ArrowLeft size={16} />
+                <ArrowLeft size={16} />
                 <span>Drag from sidebar</span>
-                <Icons.ArrowRight size={16} />
+                <ArrowRight size={16} />
                 <span>Drop here</span>
               </div>
             </motion.div>
@@ -216,7 +220,7 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
             className="absolute inset-4 border-2 border-dashed border-blue-400 bg-blue-50 bg-opacity-50 rounded-lg flex items-center justify-center z-30 pointer-events-none"
           >
             <div className="text-center">
-              <Icons.Plus size={48} className="text-blue-400 mx-auto mb-2" />
+              <Plus size={48} className="text-blue-400 mx-auto mb-2" />
               <p className="text-blue-600 font-medium">Drop section here</p>
             </div>
           </motion.div>
@@ -230,4 +234,4 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
       />
     </div>
   );
-};
+}
