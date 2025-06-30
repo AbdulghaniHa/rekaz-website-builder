@@ -34,19 +34,10 @@ type BuilderAction =
   | { type: "IMPORT_SECTIONS"; payload: { sections: BuilderSection[] } }
   | { type: "CLEAR_ALL_SECTIONS" };
 
-const generateId = () =>
-  `section_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
 const builderReducer = (
   state: BuilderState,
   action: BuilderAction
 ): BuilderState => {
-  console.log(
-    "Builder reducer action:",
-    action.type,
-    "payload" in action ? action.payload : "no payload"
-  );
-
   switch (action.type) {
     case "ADD_SECTION": {
       const template = getSectionTemplate(action.payload.templateId);
@@ -56,13 +47,12 @@ const builderReducer = (
       }
 
       const newSection: BuilderSection = {
-        id: generateId(),
+        id: new Date().getTime().toString(),
         templateId: action.payload.templateId,
         props: { ...template.defaultProps },
         order: state.sections.length,
       };
 
-      console.log("Adding new section:", newSection);
       return {
         ...state,
         sections: [...state.sections, newSection],
@@ -70,7 +60,6 @@ const builderReducer = (
     }
 
     case "REMOVE_SECTION":
-      console.log("Removing section:", action.payload.sectionId);
       return {
         ...state,
         sections: state.sections.filter(
@@ -83,12 +72,6 @@ const builderReducer = (
       };
 
     case "UPDATE_SECTION":
-      console.log(
-        "Updating section:",
-        action.payload.sectionId,
-        "with props:",
-        action.payload.props
-      );
       return {
         ...state,
         sections: state.sections.map((section) =>
@@ -103,7 +86,6 @@ const builderReducer = (
 
     case "REORDER_SECTIONS": {
       const { dragIndex, dropIndex } = action.payload;
-      console.log("Reordering sections from", dragIndex, "to", dropIndex);
 
       const newSections = [...state.sections];
       const [draggedSection] = newSections.splice(dragIndex, 1);
@@ -122,11 +104,6 @@ const builderReducer = (
     }
 
     case "SET_SECTIONS_ORDER": {
-      console.log(
-        "Setting sections order with",
-        action.payload.sections.length,
-        "sections"
-      );
       // Update order property based on array position
       const sectionsWithOrder = action.payload.sections.map(
         (section, index) => ({
@@ -142,7 +119,6 @@ const builderReducer = (
     }
 
     case "SELECT_SECTION":
-      console.log("Selecting section:", action.payload.sectionId);
       return {
         ...state,
         selectedSectionId: action.payload.sectionId,
@@ -155,7 +131,6 @@ const builderReducer = (
       };
 
     case "IMPORT_SECTIONS": {
-      console.log("Importing sections:", action.payload.sections.length);
       // Clear selection and reset dragging state when importing
       const sectionsWithOrder = action.payload.sections.map(
         (section, index) => ({
@@ -173,7 +148,6 @@ const builderReducer = (
     }
 
     case "CLEAR_ALL_SECTIONS":
-      console.log("Clearing all sections");
       return {
         ...state,
         sections: [],
@@ -199,10 +173,11 @@ export const BuilderProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [state, dispatch] = useReducer(builderReducer, initialState);
 
-  console.log("BuilderProvider state:", state);
-
   const addSection = (templateId: string) => {
-    dispatch({ type: "ADD_SECTION", payload: { templateId } });
+    dispatch({
+      type: "ADD_SECTION",
+      payload: { templateId },
+    });
   };
 
   const removeSection = (sectionId: string) => {
