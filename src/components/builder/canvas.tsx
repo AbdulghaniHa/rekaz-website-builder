@@ -63,7 +63,7 @@ export const Canvas: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 h-screen bg-white border-l border-r border-gray-200 relative flex flex-col">
+    <div className="flex-1 h-screen bg-white lg:border-l lg:border-r border-gray-200 relative flex flex-col">
       {/* Canvas Header */}
       <div className="p-4 border-b border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -88,11 +88,12 @@ export const Canvas: React.FC = () => {
               </div>
             )}
 
-            {/* Import/Export Button */}
+            {/* Import/Export Button - Hidden on mobile */}
             <Button
               onClick={handleImportExportToggle}
               size="sm"
               variant="outline"
+              className="hidden lg:inline-flex"
             >
               <Icons.Download size={16} className="mr-2" />
               Import/Export

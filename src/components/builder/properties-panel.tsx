@@ -182,7 +182,9 @@ export const PropertiesPanel: React.FC = () => {
 
   console.log(
     "PropertiesPanel rendered. Selected section:",
-    state.selectedSectionId
+    state.selectedSectionId,
+    "isCollapsed:",
+    isCollapsed
   );
 
   const selectedSection = state.sections.find(
@@ -196,42 +198,66 @@ export const PropertiesPanel: React.FC = () => {
   if (!selectedSection || !template) {
     return (
       <motion.div
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: isCollapsed ? 60 : 320, opacity: 1 }}
-        exit={{ width: 0, opacity: 0 }}
-        className="bg-white border-l border-gray-200 flex flex-col"
+        className={`bg-white lg:border-l border-gray-200 flex flex-col ${
+          isCollapsed ? "lg:w-16" : "lg:w-80"
+        } w-full h-full`}
+        initial={false}
+        animate={{
+          width: isCollapsed ? "auto" : "auto",
+        }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="p-4 border-b border-gray-100">
           <div className="flex items-center justify-between">
             <h3
-              className={`font-semibold text-gray-900 ${
-                isCollapsed ? "hidden" : ""
+              className={`font-semibold text-gray-900 transition-opacity duration-200 ${
+                isCollapsed
+                  ? "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+                  : "opacity-100"
               }`}
             >
               Properties
             </h3>
-            <Button variant="ghost" size="sm" onClick={toggleCollapsed}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hidden lg:flex"
+              onClick={toggleCollapsed}
+              title={
+                isCollapsed
+                  ? "Expand Properties Panel"
+                  : "Collapse Properties Panel"
+              }
+            >
               <Icons.Settings size={16} />
             </Button>
           </div>
         </div>
 
-        {!isCollapsed && (
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="text-center">
-              <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Icons.MousePointer size={32} className="text-gray-400" />
+        <AnimatePresence>
+          {!isCollapsed && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex-1 flex items-center justify-center p-8"
+            >
+              <div className="text-center">
+                <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Icons.MousePointer size={32} className="text-gray-400" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No Section Selected
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Select a section from the page structure to edit its
+                  properties
+                </p>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No Section Selected
-              </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Select a section from the page structure to edit its properties
-              </p>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     );
   }
@@ -315,18 +341,23 @@ export const PropertiesPanel: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ width: 0, opacity: 0 }}
-      animate={{ width: isCollapsed ? 60 : 320, opacity: 1 }}
-      exit={{ width: 0, opacity: 0 }}
-      className="bg-white border-l border-gray-200 flex flex-col"
+      className={`bg-white lg:border-l border-gray-200 flex flex-col ${
+        isCollapsed ? "lg:w-16" : "lg:w-80"
+      } w-full h-full`}
+      initial={false}
+      animate={{
+        width: isCollapsed ? "auto" : "auto",
+      }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       {/* Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div
-            className={`flex items-center space-x-3 ${
-              isCollapsed ? "hidden" : ""
+            className={`flex items-center space-x-3 transition-all duration-200 ${
+              isCollapsed
+                ? "lg:opacity-0 lg:w-0 lg:overflow-hidden"
+                : "opacity-100"
             }`}
           >
             <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
@@ -339,71 +370,93 @@ export const PropertiesPanel: React.FC = () => {
               <p className="text-xs text-gray-500">{template.name}</p>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={toggleCollapsed}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="hidden lg:flex"
+            onClick={toggleCollapsed}
+            title={
+              isCollapsed
+                ? "Expand Properties Panel"
+                : "Collapse Properties Panel"
+            }
+          >
             <Icons.Settings size={16} />
           </Button>
         </div>
       </div>
 
       {/* Properties Form */}
-      {!isCollapsed && (
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-4 space-y-6">
-            {/* Section Info */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="font-medium text-gray-900 mb-2">Section Info</h4>
-              <p className="text-sm text-gray-600 mb-3">
-                {template.description}
-              </p>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Type:</span>
-                <span className="font-medium text-gray-900 capitalize">
-                  {template.category}
-                </span>
+      <AnimatePresence>
+        {!isCollapsed && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex-1 overflow-y-auto"
+          >
+            <div className="p-4 space-y-6">
+              {/* Section Info */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="font-medium text-gray-900 mb-2">Section Info</h4>
+                <p className="text-sm text-gray-600 mb-3">
+                  {template.description}
+                </p>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Type:</span>
+                  <span className="font-medium text-gray-900 capitalize">
+                    {template.category}
+                  </span>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Dynamic Properties */}
+              <div className="space-y-4">
+                <h4 className="font-medium text-gray-900">
+                  Content Properties
+                </h4>
+                {Object.entries(selectedSection.props).map(([key, value]) => {
+                  const type = getPropertyType(key, value);
+                  const label = getPropertyLabel(key);
+                  const placeholder = getPropertyPlaceholder(key, type);
+                  const options = getPropertyOptions(key);
+
+                  return (
+                    <PropertyField
+                      key={key}
+                      label={label}
+                      value={value}
+                      type={type}
+                      onChange={(newValue) =>
+                        handlePropertyChange(key, newValue)
+                      }
+                      placeholder={placeholder}
+                      options={options}
+                    />
+                  );
+                })}
+              </div>
+
+              <Separator />
+
+              {/* Actions */}
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  onClick={() => selectSection(null)}
+                  className="w-full"
+                >
+                  <Icons.X size={16} className="mr-2" />
+                  Deselect Section
+                </Button>
               </div>
             </div>
-
-            <Separator />
-
-            {/* Dynamic Properties */}
-            <div className="space-y-4">
-              <h4 className="font-medium text-gray-900">Content Properties</h4>
-              {Object.entries(selectedSection.props).map(([key, value]) => {
-                const type = getPropertyType(key, value);
-                const label = getPropertyLabel(key);
-                const placeholder = getPropertyPlaceholder(key, type);
-                const options = getPropertyOptions(key);
-
-                return (
-                  <PropertyField
-                    key={key}
-                    label={label}
-                    value={value}
-                    type={type}
-                    onChange={(newValue) => handlePropertyChange(key, newValue)}
-                    placeholder={placeholder}
-                    options={options}
-                  />
-                );
-              })}
-            </div>
-
-            <Separator />
-
-            {/* Actions */}
-            <div className="space-y-3">
-              <Button
-                variant="outline"
-                onClick={() => selectSection(null)}
-                className="w-full"
-              >
-                <Icons.X size={16} className="mr-2" />
-                Deselect Section
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

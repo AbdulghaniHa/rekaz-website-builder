@@ -35,7 +35,7 @@ export const BuilderSidebar: React.FC = () => {
   );
 
   return (
-    <div className="w-80 h-full bg-gray-50 border-r border-gray-200 shadow-sm flex flex-col">
+    <div className="w-full lg:w-80 h-full bg-gray-50 lg:border-r border-gray-200 shadow-sm flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-gray-200 bg-white">
         <div className="mb-4">
@@ -131,8 +131,8 @@ export const BuilderSidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-gray-200 bg-white">
+      {/* Footer - Hidden on mobile */}
+      <div className="hidden lg:block p-4 border-t border-gray-200 bg-white">
         <div className="text-center">
           <p className="text-xs text-gray-500">
             Drag and drop sections to build your page

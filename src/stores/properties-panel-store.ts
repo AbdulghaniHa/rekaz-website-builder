@@ -10,7 +10,7 @@ export const usePropertiesPanelStore = create<PropertiesPanelState>((set) => {
   console.log("PropertiesPanelStore initialized");
 
   return {
-    isCollapsed: false,
+    isCollapsed: true,
     setCollapsed: (collapsed: boolean) => {
       console.log("Setting Properties Panel collapsed state to:", collapsed);
       set({ isCollapsed: collapsed });

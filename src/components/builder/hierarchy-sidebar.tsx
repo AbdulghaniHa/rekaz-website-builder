@@ -53,7 +53,7 @@ export const HierarchySidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-80 h-full bg-white border-l border-gray-200 flex flex-col">
+    <div className="w-full lg:w-80 h-full bg-white lg:border-l border-gray-200 flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center justify-between mb-3">
