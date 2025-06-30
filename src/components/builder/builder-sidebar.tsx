@@ -2,16 +2,16 @@
 
 import { getSectionsByCategory } from "@/lib/section-templates";
 import { SectionTemplate } from "@/types/builder";
-import { Search } from "lucide-react";
+import { Search, Layout, Menu, FileText, Image } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import React, { useState } from "react";
 import { SectionTemplateCard } from "./section-template-card";
 
 const categories = [
-  { id: "layout", name: "Layout", icon: "Layout" },
-  { id: "navigation", name: "Navigation", icon: "Menu" },
-  { id: "content", name: "Content", icon: "FileText" },
-  { id: "media", name: "Media", icon: "Image" },
+  { id: "layout", name: "Layout", icon: Layout },
+  { id: "navigation", name: "Navigation", icon: Menu },
+  { id: "content", name: "Content", icon: FileText },
+  { id: "media", name: "Media", icon: Image },
 ] as const;
 
 interface BuilderSidebarProps {

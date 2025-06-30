@@ -3,13 +3,14 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HeaderSection } from "@/components/sections/header-section";
 import { FooterSection } from "@/components/sections/footer-section";
 import { ContentSection } from "@/components/sections/content-section";
+import { Zap, Menu, FileText, Anchor } from "lucide-react";
 
 export const sectionTemplates: SectionTemplate[] = [
   {
     id: "hero",
     name: "Hero Section",
     description: "Eye-catching hero section with title, subtitle, and CTA",
-    icon: "Zap",
+    icon: Zap,
     category: "layout",
     component: HeroSection,
     defaultProps: {
@@ -28,7 +29,7 @@ export const sectionTemplates: SectionTemplate[] = [
     id: "header",
     name: "Header",
     description: "Navigation header with logo and menu items",
-    icon: "Menu",
+    icon: Menu,
     category: "navigation",
     component: HeaderSection,
     defaultProps: {
@@ -49,7 +50,7 @@ export const sectionTemplates: SectionTemplate[] = [
     id: "content",
     name: "Content Section",
     description: "Flexible content section with text and optional image",
-    icon: "FileText",
+    icon: FileText,
     category: "content",
     component: ContentSection,
     defaultProps: {
@@ -73,7 +74,7 @@ export const sectionTemplates: SectionTemplate[] = [
     id: "footer",
     name: "Footer",
     description: "Complete footer with links and social media",
-    icon: "Anchor",
+    icon: Anchor,
     category: "layout",
     component: FooterSection,
     defaultProps: {

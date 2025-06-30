@@ -2,7 +2,7 @@ export interface SectionTemplate {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: React.ElementType;
   category: "layout" | "content" | "media" | "navigation";
   component: React.ComponentType<any>;
   defaultProps?: Record<string, any>;
