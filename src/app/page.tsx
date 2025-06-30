@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BuilderProvider } from "@/contexts/builder-context";
 import { BuilderSidebar } from "@/components/builder/builder-sidebar";
 import { Canvas } from "@/components/builder/canvas";
@@ -497,21 +497,21 @@ const DesktopLayout: React.FC = () => {
   );
 };
 
-// Main Layout Wrapper
+// Main Layout Wrapper - CSS-Only Responsive (No JavaScript detection)
 const ResponsiveLayout: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  return (
+    <>
+      {/* Mobile Layout - Hidden on desktop (lg+) */}
+      <div className="lg:hidden">
+        <MobileLayout />
+      </div>
 
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024); // lg breakpoint
-    };
-
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => window.removeEventListener("resize", checkIsMobile);
-  }, []);
-
-  return isMobile ? <MobileLayout /> : <DesktopLayout />;
+      {/* Desktop Layout - Hidden on mobile/tablet, shown on desktop (lg+) */}
+      <div className="hidden lg:block">
+        <DesktopLayout />
+      </div>
+    </>
+  );
 };
 
 export default function Home() {
