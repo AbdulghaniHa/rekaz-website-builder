@@ -22,6 +22,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import * as Icons from "lucide-react";
 
 // Property Field Component for Mobile
@@ -361,68 +369,37 @@ const MobileLayout: React.FC = () => {
     setActiveTab("canvas");
   };
 
+  const getDrawerTitle = () => {
+    switch (activeTab) {
+      case "components":
+        return "Section Library";
+      case "hierarchy":
+        return "Page Structure";
+      case "properties":
+        return "Section Properties";
+      default:
+        return "Panel";
+    }
+  };
+
+  const getDrawerDescription = () => {
+    switch (activeTab) {
+      case "components":
+        return "Drag sections to the canvas";
+      case "hierarchy":
+        return "View and organize your page structure";
+      case "properties":
+        return "Edit selected section properties";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="h-screen bg-gray-100 flex flex-col overflow-hidden">
-      {/* Main Canvas Area with bottom padding for navigation */}
+      {/* Main Canvas Area */}
       <div className="flex-1 relative pb-20">
         <Canvas />
-
-        {/* Mobile Panel Overlay */}
-        {isPanelOpen && (
-          <div
-            className="absolute inset-0 bg-black bg-opacity-10 z-40"
-            onClick={handlePanelClose}
-          >
-            <div
-              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-xl max-h-[70vh] overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Panel Header */}
-              <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                <h3 className="text-lg font-semibold capitalize">
-                  {activeTab}
-                </h3>
-                <button
-                  onClick={handlePanelClose}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Panel Content */}
-              <div className="overflow-y-auto max-h-[calc(70vh-80px)] mobile-panel-scroll">
-                {activeTab === "components" && (
-                  <div className="h-full">
-                    <BuilderSidebar />
-                  </div>
-                )}
-                {activeTab === "hierarchy" && (
-                  <div className="h-full">
-                    <HierarchySidebar />
-                  </div>
-                )}
-                {activeTab === "properties" && (
-                  <div className="h-full">
-                    <MobilePropertiesPanel />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Fixed Mobile Navigation - Always visible */}
@@ -431,6 +408,48 @@ const MobileLayout: React.FC = () => {
         onTabChange={handleTabChange}
         isPanelOpen={isPanelOpen}
       />
+
+      {/* Mobile Panel Drawer with Blur Backdrop */}
+      <Drawer open={isPanelOpen} onOpenChange={setIsPanelOpen}>
+        <DrawerContent className="max-h-[80vh] mobile-drawer-content">
+          <DrawerHeader className="text-left">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <DrawerTitle className="text-lg font-semibold">
+                  {getDrawerTitle()}
+                </DrawerTitle>
+                <DrawerDescription className="text-sm text-gray-500 mt-1">
+                  {getDrawerDescription()}
+                </DrawerDescription>
+              </div>
+              <DrawerClose asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <Icons.X size={16} />
+                </Button>
+              </DrawerClose>
+            </div>
+          </DrawerHeader>
+
+          {/* Panel Content */}
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+            {activeTab === "components" && (
+              <div className="h-full">
+                <BuilderSidebar />
+              </div>
+            )}
+            {activeTab === "hierarchy" && (
+              <div className="h-full">
+                <HierarchySidebar />
+              </div>
+            )}
+            {activeTab === "properties" && (
+              <div className="h-full">
+                <MobilePropertiesPanel />
+              </div>
+            )}
+          </div>
+        </DrawerContent>
+      </Drawer>
 
       {/* Import/Export Dialog */}
       <ImportExportPanel

@@ -158,4 +158,16 @@
     border-top: 1px solid #e5e7eb;
     box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
   }
+
+  /* Custom Drawer Overlay with Blur */
+  .mobile-drawer-content [data-slot="drawer-overlay"] {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Enhanced drawer content styling */
+  .mobile-drawer-content {
+    box-shadow: 0 -8px 25px -5px rgba(0, 0, 0, 0.1), 0 -4px 10px -6px rgba(0, 0, 0, 0.1);
+  }
 }
