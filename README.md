@@ -2,6 +2,10 @@
 
 A powerful, intuitive drag-and-drop website builder built with modern web technologies. Create stunning websites with pre-made sections, real-time preview, and seamless import/export functionality.
 
+## Live Demo
+
+You can try the live demo [here](https://rekaz-website-builder.harran.workers.dev/)
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
