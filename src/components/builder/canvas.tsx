@@ -102,10 +102,10 @@ export const Canvas: React.FC<CanvasProps> = ({ onSectionAdded }) => {
               onClick={handleImportExportToggle}
               size="sm"
               variant="outline"
-              className="hidden lg:inline-flex"
+              className="inline-flex"
             >
-              <Icons.Download size={16} className="mr-2" />
-              Import/Export
+              <Icons.Download size={16} className="lg:mr-2" />
+              <span className="hidden lg:inline">Import / Export</span>
             </Button>
           </div>
         </div>

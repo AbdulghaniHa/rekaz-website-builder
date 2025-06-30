@@ -136,7 +136,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                 <Icons.Download size={20} className="text-blue-600" />
               </div>
               <div>
-                <DialogTitle className="text-lg font-semibold text-gray-900">
+                <DialogTitle className="text-lg font-semibold text-gray-900 text-start">
                   Import / Export
                 </DialogTitle>
                 <DialogDescription className="text-sm text-gray-500">
@@ -208,7 +208,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({
                   onClick={handleImportClick}
                   disabled={isImporting}
                   variant="outline"
-                  className="w-full border-2 border-dashed border-gray-300 hover:border-green-400 py-8"
+                  className="w-full border-2 border-dashed border-gray-300 hover:border-green-400 py-12"
                 >
                   {isImporting ? (
                     <div className="flex items-center">
